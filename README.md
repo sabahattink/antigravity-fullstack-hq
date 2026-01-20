@@ -1,5 +1,18 @@
 # Antigravity Full Stack HQ
 
+## Philosophy
+
+Antigravity Full Stack HQ is not a traditional code repository.
+
+It is a **thinking-first engineering headquarters** designed to:
+- Separate decision-making from implementation
+- Enforce role-based reasoning via agents
+- Make workflows explicit and repeatable
+- Use AI as an engineering amplifier, not an autopilot
+
+Before writing code, this repository helps you decide:
+**who thinks, how things are done, and in what order work happens.**
+
 > A comprehensive, production-ready configuration kit for Google Antigravity IDE - optimized for Next.js, NestJS, TypeScript, Prisma, and Tailwind CSS stack.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
