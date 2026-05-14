@@ -1,225 +1,259 @@
+<div align="center">
+
 # Full Stack HQ
 
-> The most opinionated AI coding configuration for serious full-stack engineers.
-> Works with **Google Antigravity IDE** and **Claude Code** — out of the box.
+### The most opinionated AI coding configuration for serious engineers.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=social)](https://github.com/sabahattink/antigravity-fullstack-hq/stargazers)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+**Works with Google Antigravity IDE and Claude Code — out of the box.**
+
+<br/>
+
+[![Stars](https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=flat-square&color=gold&label=Stars)](https://github.com/sabahattink/antigravity-fullstack-hq/stargazers)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](http://makeapullrequest.com)
+[![Last Commit](https://img.shields.io/github/last-commit/sabahattink/antigravity-fullstack-hq?style=flat-square&color=purple)](https://github.com/sabahattink/antigravity-fullstack-hq/commits)
+
+<br/>
+
+| ![Antigravity](https://img.shields.io/badge/Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white) | ![Claude Code](https://img.shields.io/badge/Claude%20Code-CC785C?style=for-the-badge&logo=anthropic&logoColor=white) |
+|:---:|:---:|
+| `GEMINI.md` + full agent stack | `CLAUDE.md` + full agent stack |
+
+</div>
+
+---
+
+## The Problem
+
+AI coding agents are powerful — but without guardrails, they become unpredictable. They create files without asking. They make assumptions. They break things mid-session.
+
+**Full Stack HQ solves this.**
+
+Install once. Your agent becomes a disciplined senior engineer who:
+
+- ✅ Always plans before acting
+- ✅ Uses the right specialist for each task
+- ✅ Knows your full tech stack deeply
+- ✅ Never surprises you with unexpected changes
+- ✅ Writes consistent, production-grade code every time
+
+---
+
+## What's Inside
 
 <table>
 <tr>
-<td align="center"><img src="https://img.shields.io/badge/Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white" /></td>
-<td align="center"><img src="https://img.shields.io/badge/Claude%20Code-CC785C?style=for-the-badge&logo=anthropic&logoColor=white" /></td>
+<td width="50%">
+
+**`GEMINI.md`** — Global rules for Antigravity
+- Permission-first workflow
+- Tech stack defaults
+- Code style enforcement
+- Git conventions
+
+</td>
+<td width="50%">
+
+**`CLAUDE.md`** — Global rules for Claude Code
+- Same philosophy, Claude-native syntax
+- Agent role definitions
+- Slash command workflows
+- Security checklist
+
+</td>
 </tr>
 </table>
 
----
-
-## What is Full Stack HQ?
-
-A battle-tested configuration kit that turns your AI coding agent into a **disciplined engineering team**.
-
-Install it once. Your agent will:
-- Always ask before acting — no surprises
-- Use the right specialist for each task
-- Follow your code style automatically
-- Know your full stack deeply (Next.js, NestJS, Prisma, TypeScript)
-- Enforce conventional commits and branch strategy
-
-| Component | Count | Description |
-|-----------|-------|-------------|
-| **GEMINI.md / CLAUDE.md** | 2 | Global rules — one per IDE |
-| **Agents** | 10 | Specialist AI personas |
-| **Skills** | 28 | Domain-specific knowledge modules |
-| **Workflows** | 10 | Slash command procedures |
+| Component | Count | What it does |
+|-----------|:-----:|--------------|
+| **Agents** | 10 | Specialist AI personas for each domain |
+| **Skills** | 28 | Deep knowledge modules (Next.js, NestJS, Prisma...) |
+| **Workflows** | 10 | Slash commands for your dev loop |
 
 ---
 
-## Quick Install
+## Install in 30 Seconds
 
-### Mac / Linux
+<details open>
+<summary><b>Mac / Linux</b></summary>
 
 ```bash
-# Install for both Antigravity + Claude Code
 curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.sh | bash
+```
 
-# Or clone and run
+```bash
+# Or clone for more control
 git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
 cd antigravity-fullstack-hq
 ./install.sh
 ```
 
-**Options:**
-```bash
-./install.sh --only-antigravity   # Antigravity only
-./install.sh --only-claude        # Claude Code only
-./install.sh --force              # Overwrite existing configs
-```
+| Flag | Effect |
+|------|--------|
+| `--only-antigravity` | Skip Claude Code |
+| `--only-claude` | Skip Antigravity |
+| `--force` | Overwrite existing configs |
 
-### Windows (PowerShell)
+</details>
+
+<details>
+<summary><b>Windows (PowerShell)</b></summary>
 
 ```powershell
 irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.ps1 | iex
 ```
 
-**Options:**
 ```powershell
-.\install.ps1 -OnlyAntigravity
+# Or with options
 .\install.ps1 -OnlyClaude
+.\install.ps1 -OnlyAntigravity
 .\install.ps1 -Force
 ```
 
+</details>
+
+After install, restart your IDE. That's it.
+
 ---
 
-## The Core Philosophy
+## The Permission-First Workflow
 
-### Permission-First Workflow
-
-Your agent will **never** execute commands, create files, or make changes without explicit approval:
+Every action requires your explicit approval. The agent plans, shows you what it intends to do, and **waits**.
 
 ```
-PLAN APPROVED        ← approve the plan
-IMPLEMENTATION APPROVED  ← approve the code
-PROCEED              ← short form
-DO IT                ← short form
+You:    "Add user authentication with JWT"
+
+Agent:  Here's my plan:
+        Phase 1: Create auth module + JWT strategy
+        Phase 2: Add guards to protected routes
+        Phase 3: Implement refresh token rotation
+
+        [APPROVAL NEEDED] Should I proceed with Phase 1?
+
+You:    PLAN APPROVED
+
+Agent:  [implements Phase 1 only, then stops and reports]
 ```
 
-Any variation = **NOT approved**. The agent waits.
+**Valid approval keywords:**
+```
+PLAN APPROVED  ·  IMPLEMENTATION APPROVED  ·  PROCEED  ·  DO IT
+```
 
-### Thinking Before Acting
-
-Before writing a single line of code, the agent asks:
-
-1. **Who** is the right specialist? (architect? frontend? database?)
-2. **What** is the minimal, reversible change?
-3. **How** does this fit the existing architecture?
-4. **Why** is this the right approach?
+Anything else = the agent waits.
 
 ---
 
 ## Tech Stack
 
-Optimized for production-grade full-stack development:
+Full Stack HQ is tuned for modern production stacks:
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 15+ (App Router), TypeScript 5+, Tailwind CSS v4 |
-| Backend | NestJS, Node.js 22+, BullMQ, Redis |
-| Database | PostgreSQL 16+, Prisma 6+ |
-| Auth | JWT with refresh token rotation |
-| Testing | Vitest, Jest, Playwright |
-| Infra | Docker, GitHub Actions, Vercel |
-
----
-
-## Agents (10)
-
-| Agent | Expertise |
-|-------|-----------|
-| `frontend-specialist` | React, Next.js, UI/UX, Tailwind |
-| `backend-specialist` | NestJS, APIs, queues, cache |
-| `database-specialist` | Prisma, PostgreSQL, migrations |
-| `architect` | System design, technical trade-offs |
-| `code-reviewer` | Quality, patterns, security |
-| `test-engineer` | Vitest, Jest, Playwright |
-| `security-auditor` | Auth, input validation, OWASP |
-| `devops-engineer` | Docker, CI/CD, infrastructure |
-| `performance-optimizer` | Bundle, queries, rendering |
-| `documentation-writer` | Technical writing, ADRs |
-
-**Usage:**
 ```
-Use the database-specialist to design a user schema with soft deletes.
+Frontend     Next.js 15 (App Router)  ·  TypeScript 5  ·  Tailwind CSS v4
+Backend      NestJS  ·  Node.js 22+  ·  BullMQ  ·  Redis
+Database     PostgreSQL 16+  ·  Prisma 6+
+Auth         JWT with refresh token rotation
+Testing      Vitest  ·  Jest  ·  Playwright
+Infra        Docker  ·  GitHub Actions  ·  Vercel
 ```
 
----
-
-## Skills (28)
-
-**Frontend** — react-best-practices, nextjs-app-router, frontend-design, ui-ux-pro-max, web-design-guidelines, and more
-
-**Backend** — nestjs-patterns, backend-dev-guidelines, prisma-workflow, software-architecture
-
-**Testing** — test-driven-development, systematic-debugging, webapp-testing
-
-**Documents** — docx-official, pdf-official, pptx-official, xlsx-official
-
-**Meta** — prompt-engineering, skill-creator, brainstorming
+> Not using this stack? Edit `~/.claude/CLAUDE.md` or `~/.gemini/GEMINI.md` to swap any technology.
 
 ---
 
-## Workflows (10)
+## Agents
 
-| Command | Description |
-|---------|-------------|
-| `/plan` | Break a feature into approved phases |
-| `/brainstorm` | Explore architecture options |
-| `/debug` | Systematic root-cause analysis |
-| `/create` | Implement an approved plan |
-| `/enhance` | Improve existing code quality |
-| `/test` | Generate or fix tests |
-| `/status` | Progress checkpoint |
-| `/preview` | Review before committing |
+<details>
+<summary>View all 10 agents</summary>
+
+| Agent | Trigger phrase | Specialty |
+|-------|---------------|-----------|
+| `frontend-specialist` | `Use the frontend-specialist to...` | React, Next.js, Tailwind, UI/UX |
+| `backend-specialist` | `Use the backend-specialist to...` | NestJS, APIs, queues, Redis |
+| `database-specialist` | `Use the database-specialist to...` | Prisma, PostgreSQL, migrations |
+| `architect` | `Use the architect to...` | System design, ADRs, trade-offs |
+| `code-reviewer` | `Use the code-reviewer to...` | Quality, patterns, security |
+| `test-engineer` | `Use the test-engineer to...` | Vitest, Jest, Playwright |
+| `security-auditor` | `Use the security-auditor to...` | Auth, OWASP, input validation |
+| `devops-engineer` | `Use the devops-engineer to...` | Docker, CI/CD, deployment |
+| `performance-optimizer` | `Use the performance-optimizer to...` | Bundle, queries, rendering |
+| `documentation-writer` | `Use the documentation-writer to...` | Technical writing, READMEs, ADRs |
+
+</details>
+
+---
+
+## Workflows
+
+| Command | When to use |
+|---------|------------|
+| `/plan` | Before starting any feature — produces a phased breakdown |
+| `/brainstorm` | Exploring architecture options before committing |
+| `/debug` | Systematic root-cause analysis on bugs |
+| `/create` | Implementing an approved plan |
+| `/enhance` | Improving existing code quality |
+| `/test` | Generating or fixing tests |
+| `/status` | Progress checkpoint on long tasks |
 | `/orchestrate` | Multi-agent task coordination |
-| `/ui-ux-pro-max` | Design with 50+ visual styles |
 
 ---
 
-## What's Installed Where
+## What Gets Installed
 
 ```
 ~/.gemini/
-├── GEMINI.md                    ← global rules (Antigravity)
+├── GEMINI.md                     ← global rules for Antigravity
 └── antigravity/
-    ├── agents/                  ← 10 specialist agents
-    ├── skills/                  ← 28 skill modules
-    └── workflows/               ← 10 workflows
+    ├── agents/                   ← 10 specialist agents
+    ├── skills/                   ← 28 skill modules
+    └── workflows/                ← 10 workflow files
 
 ~/.claude/
-├── CLAUDE.md                    ← global rules (Claude Code)
-├── agents/                      ← 10 specialist agents
-└── skills/                      ← 28 skill modules
+├── CLAUDE.md                     ← global rules for Claude Code
+├── agents/                       ← 10 specialist agents
+└── skills/                       ← 28 skill modules
 ```
 
 ---
 
-## IDE Comparison
+## IDE Support
 
 | Feature | Antigravity | Claude Code |
-|---------|-------------|-------------|
-| Global rules | `GEMINI.md` | `CLAUDE.md` |
-| Agents | ✅ | ✅ |
-| Skills | ✅ | ✅ |
-| Workflows | ✅ | ✅ (slash commands) |
-| Hooks | ❌ | ✅ |
+|---------|:-----------:|:-----------:|
+| Global rules file | ✅ `GEMINI.md` | ✅ `CLAUDE.md` |
+| Specialist agents | ✅ | ✅ |
+| Skills / modules | ✅ | ✅ |
+| Slash workflows | ✅ | ✅ |
+| Hooks system | ❌ | ✅ |
 | MCP servers | ❌ | ✅ |
+| Plan mode | ❌ | ✅ |
 
 ---
 
-## Customization
+## Contributing
 
-After installing, edit your global rules file:
+Found a missing skill? Have a better agent prompt? PRs are welcome.
 
 ```bash
-# Antigravity
-code ~/.gemini/GEMINI.md
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+cd antigravity-fullstack-hq
 
-# Claude Code
-code ~/.claude/CLAUDE.md
+# Add a new skill
+mkdir skills/your-skill-name
+echo "# Your Skill" > skills/your-skill-name/skill.md
+
+# Open a PR
+git checkout -b feat/add-your-skill
 ```
 
-Key things to customize:
-- **Approval keywords** — change trigger phrases
-- **Tech stack defaults** — swap Next.js for Nuxt, NestJS for Fastify, etc.
-- **Code style** — semicolons, quotes, indentation
-- **Forbidden patterns** — add project-specific rules
+Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening a PR.
 
 ---
 
 ## Credits
 
-Built with inspiration from:
+Built with inspiration from the community:
+
 - [vudovn/antigravity-kit](https://github.com/vudovn/antigravity-kit)
 - [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills)
 - Vercel Labs official skills
@@ -227,19 +261,12 @@ Built with inspiration from:
 
 ---
 
-## Contributing
+<div align="center">
 
-Found a bug or want to add a skill? PRs are welcome.
+**[⭐ Star this repo](https://github.com/sabahattink/antigravity-fullstack-hq) · [Report a bug](https://github.com/sabahattink/antigravity-fullstack-hq/issues) · [Request a feature](https://github.com/sabahattink/antigravity-fullstack-hq/issues)**
 
-1. Fork the repo
-2. Add your skill/agent/workflow
-3. Update the install scripts if needed
-4. Open a PR with a clear description
+<br/>
 
-See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details.
+MIT License · Made by [Scuton Technology](https://github.com/scuton-technology)
 
----
-
-## License
-
-MIT — see [LICENSE](LICENSE)
+</div>
