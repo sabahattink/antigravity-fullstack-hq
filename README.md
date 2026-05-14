@@ -1,25 +1,12 @@
 # Antigravity Full Stack HQ
 
-## Philosophy
-
-Antigravity Full Stack HQ is not a traditional code repository.
-
-It is a **thinking-first engineering headquarters** designed to:
-- Separate decision-making from implementation
-- Enforce role-based reasoning via agents
-- Make workflows explicit and repeatable
-- Use AI as an engineering amplifier, not an autopilot
-
-Before writing code, this repository helps you decide:
-**who thinks, how things are done, and in what order work happens.**
-
-> A comprehensive, production-ready configuration kit for Google Antigravity IDE - optimized for Next.js, NestJS, TypeScript, Prisma, and Tailwind CSS stack.
+> Production-ready configuration kit for [Google Antigravity IDE](https://antigravity.google) — agents, skills, workflows, and GEMINI.md for Next.js + NestJS + TypeScript + Prisma + Tailwind.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Antigravity](https://img.shields.io/badge/Google-Antigravity-blue)](https://antigravity.google)
+[![Stars](https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=social)](https://github.com/sabahattink/antigravity-fullstack-hq/stargazers)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-[English](#english) | [Turkce](#turkce)
+[English](#english) | [Türkçe](#türkçe)
 
 ---
 
@@ -27,7 +14,7 @@ Before writing code, this repository helps you decide:
 
 ### What is This?
 
-A complete **"Full Stack Headquarters"** for Google Antigravity IDE containing:
+A complete **"Full Stack Headquarters"** for Google Antigravity IDE. Drop this into your project and your AI agent instantly becomes a disciplined, role-aware engineering team.
 
 | Component | Count | Description |
 |-----------|-------|-------------|
@@ -36,36 +23,47 @@ A complete **"Full Stack Headquarters"** for Google Antigravity IDE containing:
 | **Skills** | 28 | Domain-specific knowledge modules |
 | **Workflows** | 10 | Slash command procedures |
 
-### Tech Stack
+### Philosophy
 
-This kit is optimized for:
+This is a **thinking-first engineering headquarters**:
 
-- **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS
-- **Backend**: NestJS, Node.js
-- **Database**: PostgreSQL, Prisma ORM
-- **Testing**: Vitest, Jest, Playwright
+- Separates decision-making from implementation
+- Enforces role-based reasoning via specialist agents
+- Makes workflows explicit and repeatable
+- Uses AI as an engineering amplifier, not an autopilot
+
+Before writing code, the agent decides: **who thinks, how things are done, and in what order work happens.**
 
 ### Quick Install
 
 #### Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/sabahattinkalkan/antigravity-fullstack-hq/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.ps1 | iex
 ```
 
 #### Mac/Linux (Bash)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sabahattinkalkan/antigravity-fullstack-hq/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.sh | bash
 ```
 
 #### Manual Install
 ```bash
-git clone https://github.com/sabahattinkalkan/antigravity-fullstack-hq.git
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
 cd antigravity-fullstack-hq
 # Windows
 .\install.ps1
 # Mac/Linux
 ./install.sh
 ```
+
+### Tech Stack
+
+Optimized for:
+
+- **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS
+- **Backend**: NestJS, Node.js
+- **Database**: PostgreSQL, Prisma ORM
+- **Testing**: Vitest, Jest, Playwright
 
 ### What's Included
 
@@ -124,10 +122,6 @@ PROCEED
 DO IT
 ```
 
-#### Conversation Hygiene
-
-If context becomes unclear, the agent will ask for clarification or suggest starting a new conversation.
-
 #### Tech Stack Awareness
 
 The agent knows your stack and follows your conventions:
@@ -135,19 +129,10 @@ The agent knows your stack and follows your conventions:
 - Single quotes
 - 2 spaces indentation
 - Conventional commits
-- And more...
 
 ### Customization
 
-Edit `~/.gemini/GEMINI.md` to customize:
-
-- Tech stack defaults
-- Code style preferences
-- Git conventions
-- Approval keywords
-- Forbidden patterns
-
-See [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) for details.
+Edit `~/.gemini/GEMINI.md` to customize tech stack defaults, code style, git conventions, and approval keywords.
 
 ### Credits
 
@@ -159,45 +144,47 @@ Built with resources from:
 
 ---
 
-## Turkce
+## Türkçe
 
 ### Bu Nedir?
 
-Google Antigravity IDE icin eksiksiz bir **"Full Stack Yazilim Ussu"**:
+Google Antigravity IDE için eksiksiz bir **"Full Stack Yazılım Üssü"**. Projenize ekleyin ve AI ajanınız anında disiplinli, rol-farkında bir mühendislik ekibine dönüşsün.
 
-| Bilesen | Adet | Aciklama |
+| Bileşen | Adet | Açıklama |
 |---------|------|----------|
 | **GEMINI.md** | 1 | Permission-first workflow ile global kurallar |
-| **Agents** | 10 | Uzman AI personalari |
-| **Skills** | 28 | Domain-spesifik bilgi modulleri |
-| **Workflows** | 10 | Slash command prosedurleri |
+| **Agents** | 10 | Uzman AI personaları |
+| **Skills** | 28 | Domain-spesifik bilgi modülleri |
+| **Workflows** | 10 | Slash command prosedürleri |
 
-### Teknoloji Yigini
-
-Bu kit su stack icin optimize edilmistir:
-
-- **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS
-- **Backend**: NestJS, Node.js
-- **Veritabani**: PostgreSQL, Prisma ORM
-- **Test**: Vitest, Jest, Playwright
-
-### Hizli Kurulum
+### Hızlı Kurulum
 
 #### Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/sabahattinkalkan/antigravity-fullstack-hq/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.ps1 | iex
 ```
 
 #### Mac/Linux (Bash)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sabahattinkalkan/antigravity-fullstack-hq/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.sh | bash
 ```
 
-### Temel Ozellikler
+### Kullanım
 
-#### Permission-First Workflow
+**Agent çağırma:**
+```
+Use the database-specialist to design a schema for user management
+```
 
-Agent acik onay almadan **asla** komut calistirmaz, dosya olusturmaz veya degisiklik yapmaz:
+**Workflow çağırma:**
+```
+/plan Create authentication system with JWT
+/debug Why is my API returning 500 error
+```
+
+### Temel Özellikler
+
+Agent açık onay almadan **asla** komut çalıştırmaz, dosya oluşturmaz veya değişiklik yapmaz:
 
 ```
 PLAN APPROVED
@@ -206,29 +193,12 @@ PROCEED
 DO IT
 ```
 
-#### Kullanim
-
-**Agent cagirma:**
-```
-Use the database-specialist to design a schema for user management
-```
-
-**Workflow cagirma:**
-```
-/plan Create authentication system with JWT
-/debug Why is my API returning 500 error
-```
-
-### Lisans
-
-MIT License - Istediginiz gibi kullanin, degistirin, dagitin.
-
 ---
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) first.
+Contributions are welcome!
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file.
+MIT License — see [LICENSE](LICENSE) file.
