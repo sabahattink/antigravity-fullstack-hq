@@ -13,6 +13,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](http://makeapullrequest.com)
 [![Last Commit](https://img.shields.io/github/last-commit/sabahattink/antigravity-fullstack-hq?style=flat-square&color=purple)](https://github.com/sabahattink/antigravity-fullstack-hq/commits)
+[![Awesome](https://img.shields.io/badge/Listed%20on-Awesome%20Claude%20Skills-FF6B6B?style=flat-square)](https://github.com/travisvn/awesome-claude-skills)
 
 <br/>
 
@@ -289,6 +290,16 @@ Built with inspiration from the community:
 - [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills)
 - Vercel Labs official skills
 - Anthropic official skills
+
+---
+
+## Star History
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=sabahattink/antigravity-fullstack-hq&type=Date)](https://star-history.com/#sabahattink/antigravity-fullstack-hq&Date)
+
+</div>
 
 ---
 
