@@ -8,6 +8,7 @@
 
 <br/>
 
+[![Release](https://img.shields.io/github/v/release/sabahattink/antigravity-fullstack-hq?style=flat-square&color=orange&label=Release)](https://github.com/sabahattink/antigravity-fullstack-hq/releases)
 [![Stars](https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=flat-square&color=gold&label=Stars)](https://github.com/sabahattink/antigravity-fullstack-hq/stargazers)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](http://makeapullrequest.com)
@@ -183,6 +184,25 @@ Infra        Docker  ·  GitHub Actions  ·  Vercel
 
 ---
 
+## Skills
+
+<details>
+<summary>View all 28 skills</summary>
+
+| Category | Skills |
+|----------|--------|
+| **Frontend** | `react-best-practices` `typescript-patterns` `tailwind-patterns` `frontend-design` `web-design-guidelines` `nextjs-app-router` |
+| **Backend** | `nestjs-patterns` `backend-dev-guidelines` `software-architecture` `api-design-patterns` `prisma-workflow` |
+| **Testing** | `test-driven-development` `systematic-debugging` `webapp-testing` |
+| **DevOps** | `docker-patterns` `github-actions` `deployment-guide` |
+| **Auth & Security** | `auth-patterns` `security-checklist` |
+| **Documents** | `docx-official` `pdf-official` `pptx-official` `xlsx-official` |
+| **Meta** | `brainstorming` `skill-creator` `code-review-patterns` `git-workflow` `prompt-engineering` |
+
+</details>
+
+---
+
 ## Workflows
 
 | Command | When to use |
@@ -194,7 +214,9 @@ Infra        Docker  ·  GitHub Actions  ·  Vercel
 | `/enhance` | Improving existing code quality |
 | `/test` | Generating or fixing tests |
 | `/status` | Progress checkpoint on long tasks |
+| `/preview` | Pre-commit review — quality, security, commit draft |
 | `/orchestrate` | Multi-agent task coordination |
+| `/ui-ux-pro-max` | Deep UI/UX audit with 10 visual style directions |
 
 ---
 
@@ -232,7 +254,7 @@ Infra        Docker  ·  GitHub Actions  ·  Vercel
 
 ## Contributing
 
-Found a missing skill? Have a better agent prompt? PRs are welcome.
+Want to add a skill, improve an agent, or fix a workflow? PRs are very welcome.
 
 ```bash
 git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
@@ -240,10 +262,19 @@ cd antigravity-fullstack-hq
 
 # Add a new skill
 mkdir skills/your-skill-name
-echo "# Your Skill" > skills/your-skill-name/skill.md
+cat > skills/your-skill-name/SKILL.md << 'EOF'
+---
+name: your-skill-name
+description: What this skill covers. Use when [trigger condition].
+---
 
-# Open a PR
-git checkout -b feat/add-your-skill
+# Your Skill Title
+
+## Section
+Content here...
+EOF
+
+git checkout -b feat/add-your-skill-name
 ```
 
 Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening a PR.
