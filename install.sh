@@ -111,7 +111,7 @@ if [[ "$INSTALL_ANTIGRAVITY" == true ]]; then
     for f in "$SCRIPT_DIR/agents"/*.md; do
         [[ -f "$f" ]] || continue
         cp "$f" "$GEMINI_AGENTS_DIR/"
-        ((agent_count++))
+        agent_count=$((agent_count + 1))
     done
     echo -e "  ${GREEN}✓ Agents: $agent_count files${NC}"
 
@@ -120,7 +120,7 @@ if [[ "$INSTALL_ANTIGRAVITY" == true ]]; then
     for d in "$SCRIPT_DIR/skills"/*/; do
         [[ -d "$d" ]] || continue
         cp -r "$d" "$GEMINI_SKILLS_DIR/"
-        ((skill_count++))
+        skill_count=$((skill_count + 1))
     done
     echo -e "  ${GREEN}✓ Skills: $skill_count modules${NC}"
 
@@ -129,7 +129,7 @@ if [[ "$INSTALL_ANTIGRAVITY" == true ]]; then
     for f in "$SCRIPT_DIR/workflows"/*.md; do
         [[ -f "$f" ]] || continue
         cp "$f" "$GEMINI_WORKFLOWS_DIR/"
-        ((workflow_count++))
+        workflow_count=$((workflow_count + 1))
     done
     echo -e "  ${GREEN}✓ Workflows: $workflow_count files${NC}"
 fi
@@ -164,7 +164,7 @@ if [[ "$INSTALL_CLAUDE" == true ]]; then
     for f in "$SCRIPT_DIR/agents"/*.md; do
         [[ -f "$f" ]] || continue
         cp "$f" "$CLAUDE_AGENTS_DIR/"
-        ((agent_count++))
+        agent_count=$((agent_count + 1))
     done
     echo -e "  ${GREEN}✓ Agents: $agent_count files${NC}"
 
@@ -174,7 +174,7 @@ if [[ "$INSTALL_CLAUDE" == true ]]; then
     for d in "$SCRIPT_DIR/skills"/*/; do
         [[ -d "$d" ]] || continue
         cp -r "$d" "$CLAUDE_SKILLS_DIR/"
-        ((skill_count++))
+        skill_count=$((skill_count + 1))
     done
     echo -e "  ${GREEN}✓ Skills: $skill_count modules${NC}"
 fi
