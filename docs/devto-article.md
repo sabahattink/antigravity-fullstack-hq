@@ -9,7 +9,7 @@ The agent would just **start doing things**. No plan. No approval. Just... actin
 
 It deleted files I didn't want deleted. It refactored things I didn't ask it to refactor. It made "helpful" assumptions that broke my architecture.
 
-So I built **Full Stack HQ** — a configuration kit that enforces a permission-first workflow. Here's what I learned.
+So I built **Full Stack HQ** — a configuration kit that encodes a permission-first workflow. Here's what I learned.
 
 ---
 
@@ -28,7 +28,7 @@ The agent is powerful but unpredictable. That's the worst combination in softwar
 
 ## The solution: permission-first workflow
 
-Nothing happens without your explicit approval. The agent plans, shows you what it intends to do, and **waits**.
+The installed rules are designed to make the agent plan, show what it intends to do, and request explicit approval before execution.
 
 ```
 You:    "Add user authentication with JWT"
@@ -54,7 +54,7 @@ PROCEED
 DO IT
 ```
 
-Anything else — the agent waits. No exceptions.
+The rules define these as the approval phrases. They are prompt/configuration guidance, not a runtime permission boundary, so the host agent still determines the observed behavior.
 
 ---
 
@@ -66,7 +66,7 @@ Anything else — the agent waits. No exceptions.
 | `GEMINI.md` | 1 | Global rules for Google Antigravity IDE |
 | Agents | 10 | Specialist AI personas |
 | Skills | 28 | Domain-specific knowledge modules |
-| Workflows | 10 | Slash command procedures |
+| Workflows | 10 | Antigravity workflow files |
 
 ### 10 Specialist Agents
 
@@ -100,7 +100,7 @@ Deep knowledge modules for the tools you actually use:
 - **Testing**: `test-driven-development`, `systematic-debugging`, `webapp-testing`
 - **Meta**: `brainstorming`, `prompt-engineering`, `skill-creator`
 
-### 10 Workflows (Slash Commands)
+### 10 Workflows (Antigravity Commands)
 
 ```
 /plan       → phased breakdown with approval checkpoints
@@ -114,18 +114,25 @@ Deep knowledge modules for the tools you actually use:
 
 ---
 
-## Install in 30 seconds
+## Installation
+
+The installers copy files from the cloned repository and should be run from that checkout.
 
 **Mac/Linux:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.sh | bash
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+cd antigravity-fullstack-hq
+chmod +x install.sh
+./install.sh
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.ps1 | iex
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+Set-Location antigravity-fullstack-hq
+.\install.ps1
 ```
 
 **Options:**
@@ -133,10 +140,10 @@ irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/
 ```bash
 ./install.sh --only-claude        # Claude Code only
 ./install.sh --only-antigravity   # Antigravity only
-./install.sh --force              # Overwrite existing configs
+./install.sh --force              # Skip the global-rules overwrite prompt
 ```
 
-The script detects which IDEs you have installed and configures them automatically.
+The scripts perform pre-flight checks and install the selected host files.
 
 ---
 
@@ -160,11 +167,11 @@ The script detects which IDEs you have installed and configures them automatical
 
 ## The CLAUDE.md philosophy
 
-The rules file enforces several things I found critical in practice:
+The rules file describes several things I found critical in practice:
 
 **1. Separation of planning and execution**
 
-The agent never does both in the same step. First it plans, you approve, then it executes. This alone eliminates 80% of unwanted surprises.
+The rules separate planning from execution: the agent should plan, request approval, then execute the approved slice.
 
 **2. Role-based reasoning**
 
@@ -172,11 +179,11 @@ Before acting, the agent asks: "Who is the right specialist for this?" A databas
 
 **3. Explicit code style**
 
-No semicolons. Single quotes. 2-space indentation. Arrow functions. Named exports. These aren't suggestions — they're enforced rules the agent follows on every file, every time.
+No semicolons. Single quotes. 2-space indentation. Arrow functions. Named exports. These are documented defaults that the host agent is asked to follow.
 
 **4. Security checklist**
 
-Before every commit: no hardcoded secrets, all inputs validated, no unbounded queries, rate limiting on public endpoints. The agent checks these automatically.
+Before every commit, the rules include a checklist for hardcoded secrets, input validation, bounded queries, and rate limiting. The checklist is guidance for the host agent, not an automatic scanner.
 
 ---
 
@@ -186,7 +193,7 @@ The mental model I was missing: **AI agents should behave like senior engineers,
 
 Senior engineers don't start typing when you describe a problem. They think, propose a plan, get sign-off, then execute — one reversible step at a time.
 
-Full Stack HQ enforces this discipline by default.
+Full Stack HQ encodes this discipline in its global rules and workflow files.
 
 ---
 

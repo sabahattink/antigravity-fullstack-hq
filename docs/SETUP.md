@@ -1,156 +1,97 @@
 # Setup Guide
 
+This repository installs prompt/configuration files for Google Antigravity and Claude Code. It does not install runtimes, packages, or project dependencies.
+
 ## Prerequisites
 
-- [Google Antigravity IDE](https://antigravity.google) installed
-- Git installed
-- PowerShell (Windows) or Bash (Mac/Linux)
+- Git
+- Google Antigravity and/or Claude Code
+- PowerShell on Windows, or Bash on macOS/Linux
 
-## Installation Methods
+The installers copy files relative to the repository. Clone the repository before running either installer; do not pipe the script directly from a URL.
 
-### Method 1: Quick Install (Recommended)
+## Standard installation
 
-#### Windows
+### Windows (PowerShell)
 
 ```powershell
-# One-line install
-irm https://raw.githubusercontent.com/YOUR_USERNAME/antigravity-fullstack-hq/main/install.ps1 | iex
-```
-
-#### Mac/Linux
-
-```bash
-# One-line install
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/antigravity-fullstack-hq/main/install.sh | bash
-```
-
-### Method 2: Manual Install
-
-```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/antigravity-fullstack-hq.git
-cd antigravity-fullstack-hq
-
-# Windows
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+Set-Location antigravity-fullstack-hq
 .\install.ps1
+```
 
-# Mac/Linux
+### macOS / Linux
+
+```bash
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+cd antigravity-fullstack-hq
 chmod +x install.sh
 ./install.sh
 ```
 
-### Method 3: Selective Install
+By default, both host integrations are prepared.
 
-If you only want specific components:
+## Selective installation
+
+### Windows
+
+```powershell
+.\install.ps1 -OnlyAntigravity
+.\install.ps1 -OnlyClaude
+.\install.ps1 -Force
+```
+
+### macOS / Linux
 
 ```bash
-# Clone first
-git clone https://github.com/YOUR_USERNAME/antigravity-fullstack-hq.git
-cd antigravity-fullstack-hq
-
-# Copy only what you need
-cp gemini/GEMINI.md ~/.gemini/
-cp -r skills/nestjs-patterns ~/.gemini/antigravity/skills/
-cp -r agents/database-specialist.md ~/.gemini/antigravity/agents/
+./install.sh --only-antigravity
+./install.sh --only-claude
+./install.sh --force
 ```
 
-## Post-Installation
+`-Force` / `--force` skips the prompt for an existing `GEMINI.md` or `CLAUDE.md`. The current scripts prompt only for those global rules files; same-named agent, skill, and workflow files are copied into their target directories.
 
-### 1. Restart Antigravity
+## Installed files
 
-Close and reopen Antigravity IDE for changes to take effect.
+| Component | Google Antigravity | Claude Code |
+|-----------|-------------------|-------------|
+| Global rules | `~/.gemini/GEMINI.md` | `~/.claude/CLAUDE.md` |
+| Agents | `~/.gemini/antigravity/agents/` | `~/.claude/agents/` |
+| Skills | `~/.gemini/antigravity/skills/` | `~/.claude/skills/` |
+| Workflows | `~/.gemini/antigravity/workflows/` | Not installed by these scripts |
 
-### 2. Verify Installation
+Restart the host application and start a new conversation after installation.
 
-Test with a simple prompt:
+## Verification
 
-```
+Try a small, reversible prompt such as:
+
+```text
 Create a React component called UserCard
 ```
 
-The agent should:
-- Ask for approval before creating files
-- Present a plan first
-- Wait for your confirmation
+The installed rules are intended to make the agent present a plan and request approval before making changes. This is prompt/configuration guidance, not a runtime permission boundary.
 
-### 3. Test Workflows
+Workflows are available to Antigravity using their slash commands, for example `/brainstorm` and `/plan`. Claude Code receives its host-specific rules, agents, and skills; these scripts do not install the Antigravity workflow directory into Claude Code.
 
-```
-/brainstorm authentication approaches for a SaaS app
-/plan Create a user management module
-```
+## Customization
 
-## Installation Options
+- Edit `~/.gemini/GEMINI.md` for Antigravity defaults.
+- Edit `~/.claude/CLAUDE.md` for Claude Code defaults.
+- Add or refine agents, skills, and workflows in the cloned repository before reinstalling.
 
-### Windows (install.ps1)
-
-```powershell
-# Force overwrite existing files
-.\install.ps1 -Force
-
-# Skip GEMINI.md (keep your existing rules)
-.\install.ps1 -SkipGemini
-```
-
-### Mac/Linux (install.sh)
-
-```bash
-# Force overwrite existing files
-./install.sh --force
-
-# Skip GEMINI.md (keep your existing rules)
-./install.sh --skip-gemini
-```
-
-## File Locations
-
-After installation, files are located at:
-
-| Component | Location |
-|-----------|----------|
-| GEMINI.md | `~/.gemini/GEMINI.md` |
-| Agents | `~/.gemini/antigravity/agents/` |
-| Skills | `~/.gemini/antigravity/skills/` |
-| Workflows | `~/.gemini/antigravity/workflows/` |
-
-## Troubleshooting
-
-### Agent not following rules
-
-1. Ensure GEMINI.md exists at `~/.gemini/GEMINI.md`
-2. Restart Antigravity
-3. Start a new conversation
-
-### Workflows not working
-
-1. Check files exist in `~/.gemini/antigravity/workflows/`
-2. Restart Antigravity
-3. Use exact command: `/brainstorm`, `/plan`, etc.
-
-### Skills not activating
-
-1. Check files exist in `~/.gemini/antigravity/skills/`
-2. Each skill should have a `SKILL.md` file
-3. Restart Antigravity
+See [CUSTOMIZATION.md](CUSTOMIZATION.md) for examples.
 
 ## Uninstallation
 
-To remove all installed files:
+To remove the Antigravity files installed by this repository:
+
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\\.gemini\\antigravity"
+```
 
 ```bash
-# Windows
-Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini\antigravity"
-
-# Mac/Linux
 rm -rf ~/.gemini/antigravity
 ```
 
-To remove everything including GEMINI.md:
-
-```bash
-# Windows
-Remove-Item -Recurse -Force "$env:USERPROFILE\.gemini"
-
-# Mac/Linux
-rm -rf ~/.gemini
-```
+Remove `GEMINI.md` or `CLAUDE.md` separately only if you are sure they are managed by this repository and do not contain your own rules.

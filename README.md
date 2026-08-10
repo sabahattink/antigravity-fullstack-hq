@@ -1,314 +1,168 @@
-<div align="center">
-
 # Full Stack HQ
 
-### The most opinionated AI coding configuration for serious engineers.
+Opinionated AI engineering workflow and configuration for Google Antigravity and Claude Code.
 
-**Works with Google Antigravity IDE and Claude Code — out of the box.**
+Full Stack HQ packages global rules, specialist agents, reusable skills, and workflow files for controlled, planned, and reviewable engineering work. It is a configuration and documentation repository—not a SaaS product, generic AI platform, agent runtime, or application framework.
 
-<br/>
+> The permission model is implemented as instructions in `GEMINI.md` and `CLAUDE.md`. It is not a runtime sandbox or hard enforcement layer; behavior still depends on the host agent applying the installed instructions.
 
-[![Release](https://img.shields.io/github/v/release/sabahattink/antigravity-fullstack-hq?style=flat-square&color=orange&label=Release)](https://github.com/sabahattink/antigravity-fullstack-hq/releases)
-[![Stars](https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=flat-square&color=gold&label=Stars)](https://github.com/sabahattink/antigravity-fullstack-hq/stargazers)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](http://makeapullrequest.com)
-[![Last Commit](https://img.shields.io/github/last-commit/sabahattink/antigravity-fullstack-hq?style=flat-square&color=purple)](https://github.com/sabahattink/antigravity-fullstack-hq/commits)
-[![Awesome](https://img.shields.io/badge/Listed%20on-Awesome%20Claude%20Skills-FF6B6B?style=flat-square)](https://github.com/travisvn/awesome-claude-skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-<br/>
+## What is included
 
-| ![Antigravity](https://img.shields.io/badge/Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white) | ![Claude Code](https://img.shields.io/badge/Claude%20Code-CC785C?style=for-the-badge&logo=anthropic&logoColor=white) |
-|:---:|:---:|
-| `GEMINI.md` + full agent stack | `CLAUDE.md` + full agent stack |
+| Component | Count | Role |
+|-----------|:-----:|------|
+| Global rules | 2 | Host-specific instructions in `GEMINI.md` and `CLAUDE.md` |
+| Agents | 10 | Specialist role definitions |
+| Skills | 28 | Reusable domain guidance modules |
+| Workflows | 10 | Antigravity workflow files |
 
-</div>
+The maintained integration surfaces are Google Antigravity and Claude Code. The default installers install the rules, agents, and skills for both; workflow files are installed for Antigravity.
 
----
+## Workflow model
 
-## The Problem
+The included rules describe a permission-aware engineering workflow:
 
-AI coding agents are powerful — but without guardrails, they become unpredictable. They create files without asking. They make assumptions. They break things mid-session.
+1. Plan the work and identify the relevant specialist.
+2. Present the scope, assumptions, and proposed changes.
+3. Wait for explicit approval before executing the approved slice.
+4. Report what changed, what was verified, and what remains.
 
-**Full Stack HQ solves this.**
+The configured approval phrases are:
 
-Install once. Your agent becomes a disciplined senior engineer who:
-
-- ✅ Always plans before acting
-- ✅ Uses the right specialist for each task
-- ✅ Knows your full tech stack deeply
-- ✅ Never surprises you with unexpected changes
-- ✅ Writes consistent, production-grade code every time
-
----
-
-## What's Inside
-
-<table>
-<tr>
-<td width="50%">
-
-**`GEMINI.md`** — Global rules for Antigravity
-- Permission-first workflow
-- Tech stack defaults
-- Code style enforcement
-- Git conventions
-
-</td>
-<td width="50%">
-
-**`CLAUDE.md`** — Global rules for Claude Code
-- Same philosophy, Claude-native syntax
-- Agent role definitions
-- Slash command workflows
-- Security checklist
-
-</td>
-</tr>
-</table>
-
-| Component | Count | What it does |
-|-----------|:-----:|--------------|
-| **Agents** | 10 | Specialist AI personas for each domain |
-| **Skills** | 28 | Deep knowledge modules (Next.js, NestJS, Prisma...) |
-| **Workflows** | 10 | Slash commands for your dev loop |
-
----
-
-## Install in 30 Seconds
-
-<details open>
-<summary><b>Mac / Linux</b></summary>
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.sh | bash
+```text
+PLAN APPROVED
+IMPLEMENTATION APPROVED
+PROCEED
+DO IT
 ```
 
+These phrases are part of the installed prompt/configuration guidance. They do not intercept shell commands, enforce filesystem permissions, or guarantee host-agent behavior.
+
+## Installation
+
+The installers copy files from the cloned repository, so run them from a local checkout.
+
+### macOS / Linux
+
 ```bash
-# Or clone for more control
 git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
 cd antigravity-fullstack-hq
+chmod +x install.sh
 ./install.sh
 ```
 
-| Flag | Effect |
-|------|--------|
-| `--only-antigravity` | Skip Claude Code |
-| `--only-claude` | Skip Antigravity |
-| `--force` | Overwrite existing configs |
+Available options:
 
-</details>
+| Option | Effect |
+|--------|--------|
+| `--only-antigravity` | Install only the Antigravity files |
+| `--only-claude` | Install only the Claude Code files |
+| `--force` | Skip the prompt for existing global rules files |
 
-<details>
-<summary><b>Windows (PowerShell)</b></summary>
-
-```powershell
-irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/install.ps1 | iex
-```
+### Windows (PowerShell)
 
 ```powershell
-# Or with options
-.\install.ps1 -OnlyClaude
-.\install.ps1 -OnlyAntigravity
-.\install.ps1 -Force
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+Set-Location antigravity-fullstack-hq
+.\install.ps1
 ```
 
-</details>
+Available switches:
 
-After install, restart your IDE. That's it.
+| Switch | Effect |
+|--------|--------|
+| `-OnlyAntigravity` | Install only the Antigravity files |
+| `-OnlyClaude` | Install only the Claude Code files |
+| `-Force` | Skip the prompt for existing global rules files |
 
----
+The scripts target the following locations:
 
-## The Permission-First Workflow
+```text
+Antigravity
+  ~/.gemini/GEMINI.md
+  ~/.gemini/antigravity/agents/
+  ~/.gemini/antigravity/skills/
+  ~/.gemini/antigravity/workflows/
 
-Every action requires your explicit approval. The agent plans, shows you what it intends to do, and **waits**.
-
-```
-You:    "Add user authentication with JWT"
-
-Agent:  Here's my plan:
-        Phase 1: Create auth module + JWT strategy
-        Phase 2: Add guards to protected routes
-        Phase 3: Implement refresh token rotation
-
-        [APPROVAL NEEDED] Should I proceed with Phase 1?
-
-You:    PLAN APPROVED
-
-Agent:  [implements Phase 1 only, then stops and reports]
+Claude Code
+  ~/.claude/CLAUDE.md
+  ~/.claude/agents/
+  ~/.claude/skills/
 ```
 
-**Valid approval keywords:**
-```
-PLAN APPROVED  ·  IMPLEMENTATION APPROVED  ·  PROCEED  ·  DO IT
-```
+Restart the host application after installation so it reloads the global files.
 
-Anything else = the agent waits.
+The current scripts prompt only for existing `GEMINI.md` or `CLAUDE.md`; same-named agent, skill, and workflow files are copied into their target directories.
 
----
+## Technology defaults
 
-## Tech Stack
+The included guidance is opinionated around common full-stack engineering work:
 
-Full Stack HQ is tuned for modern production stacks:
+- Web: Next.js, React, TypeScript, and Tailwind CSS
+- Services and data: NestJS, Node.js, PostgreSQL, and Prisma
+- Delivery and verification: Vitest, Jest, Playwright, Docker, and GitHub Actions
 
-```
-Frontend     Next.js 15 (App Router)  ·  TypeScript 5  ·  Tailwind CSS v4
-Backend      NestJS  ·  Node.js 22+  ·  BullMQ  ·  Redis
-Database     PostgreSQL 16+  ·  Prisma 6+
-Auth         JWT with refresh token rotation
-Testing      Vitest  ·  Jest  ·  Playwright
-Infra        Docker  ·  GitHub Actions  ·  Vercel
-```
-
-> Not using this stack? Edit `~/.claude/CLAUDE.md` or `~/.gemini/GEMINI.md` to swap any technology.
-
----
+These are documentation defaults and examples, not dependencies installed by this repository. Edit the installed `~/.claude/CLAUDE.md` or `~/.gemini/GEMINI.md` when a project uses different conventions.
 
 ## Agents
 
-<details>
-<summary>View all 10 agents</summary>
-
-| Agent | Trigger phrase | Specialty |
-|-------|---------------|-----------|
-| `frontend-specialist` | `Use the frontend-specialist to...` | React, Next.js, Tailwind, UI/UX |
-| `backend-specialist` | `Use the backend-specialist to...` | NestJS, APIs, queues, Redis |
-| `database-specialist` | `Use the database-specialist to...` | Prisma, PostgreSQL, migrations |
-| `architect` | `Use the architect to...` | System design, ADRs, trade-offs |
-| `code-reviewer` | `Use the code-reviewer to...` | Quality, patterns, security |
-| `test-engineer` | `Use the test-engineer to...` | Vitest, Jest, Playwright |
-| `security-auditor` | `Use the security-auditor to...` | Auth, OWASP, input validation |
-| `devops-engineer` | `Use the devops-engineer to...` | Docker, CI/CD, deployment |
-| `performance-optimizer` | `Use the performance-optimizer to...` | Bundle, queries, rendering |
-| `documentation-writer` | `Use the documentation-writer to...` | Technical writing, READMEs, ADRs |
-
-</details>
-
----
+| Agent | Focus |
+|-------|-------|
+| `frontend-specialist` | React, Next.js, Tailwind, and UI/UX |
+| `backend-specialist` | NestJS, APIs, queues, and Redis |
+| `database-specialist` | Prisma, PostgreSQL, and migrations |
+| `architect` | System design, ADRs, and trade-offs |
+| `code-reviewer` | Quality, patterns, and security |
+| `test-engineer` | Vitest, Jest, and Playwright |
+| `security-auditor` | Auth, OWASP, and input validation |
+| `devops-engineer` | Docker, CI/CD, and deployment |
+| `performance-optimizer` | Bundles, queries, and rendering |
+| `documentation-writer` | Technical writing, READMEs, and ADRs |
 
 ## Skills
 
-<details>
-<summary>View all 28 skills</summary>
+The 28 skills are grouped by purpose:
 
-| Category | Skills |
-|----------|--------|
-| **Frontend** | `react-best-practices` `typescript-patterns` `tailwind-patterns` `frontend-design` `web-design-guidelines` `nextjs-app-router` |
-| **Backend** | `nestjs-patterns` `backend-dev-guidelines` `software-architecture` `api-design-patterns` `prisma-workflow` |
-| **Testing** | `test-driven-development` `systematic-debugging` `webapp-testing` |
-| **DevOps** | `docker-patterns` `github-actions` `deployment-guide` |
-| **Auth & Security** | `auth-patterns` `security-checklist` |
-| **Documents** | `docx-official` `pdf-official` `pptx-official` `xlsx-official` |
-| **Meta** | `brainstorming` `skill-creator` `code-review-patterns` `git-workflow` `prompt-engineering` |
-
-</details>
-
----
+| Area | Skills |
+|------|--------|
+| Frontend | `react-best-practices`, `typescript-patterns`, `tailwind-patterns`, `frontend-design`, `web-design-guidelines`, `nextjs-app-router` |
+| Backend | `nestjs-patterns`, `backend-dev-guidelines`, `software-architecture`, `api-design-patterns`, `prisma-workflow` |
+| Testing | `test-driven-development`, `systematic-debugging`, `webapp-testing` |
+| DevOps | `docker-patterns`, `github-actions`, `deployment-guide` |
+| Auth and security | `auth-patterns`, `security-checklist` |
+| Documents | `docx-official`, `pdf-official`, `pptx-official`, `xlsx-official` |
+| Meta | `brainstorming`, `skill-creator`, `code-review-patterns`, `git-workflow`, `prompt-engineering` |
 
 ## Workflows
 
-| Command | When to use |
-|---------|------------|
-| `/plan` | Before starting any feature — produces a phased breakdown |
-| `/brainstorm` | Exploring architecture options before committing |
-| `/debug` | Systematic root-cause analysis on bugs |
-| `/create` | Implementing an approved plan |
-| `/enhance` | Improving existing code quality |
-| `/test` | Generating or fixing tests |
-| `/status` | Progress checkpoint on long tasks |
-| `/preview` | Pre-commit review — quality, security, commit draft |
-| `/orchestrate` | Multi-agent task coordination |
-| `/ui-ux-pro-max` | Deep UI/UX audit with 10 visual style directions |
+The 10 workflow files are installed under `~/.gemini/antigravity/workflows/`:
 
----
+| Command | Use |
+|---------|-----|
+| `/plan` | Break work into phases before implementation |
+| `/brainstorm` | Explore options and trade-offs |
+| `/debug` | Work through a systematic root-cause analysis |
+| `/create` | Implement an approved plan |
+| `/enhance` | Improve existing code quality |
+| `/test` | Generate or fix tests |
+| `/status` | Record progress, blockers, and next steps |
+| `/preview` | Review quality, security, and commit readiness |
+| `/orchestrate` | Coordinate specialist workstreams |
+| `/ui-ux-pro-max` | Run a structured UI/UX review |
 
-## What Gets Installed
+Claude Code receives `CLAUDE.md`, the agents, and the skills from the installers; it does not receive these workflow files.
 
-```
-~/.gemini/
-├── GEMINI.md                     ← global rules for Antigravity
-└── antigravity/
-    ├── agents/                   ← 10 specialist agents
-    ├── skills/                   ← 28 skill modules
-    └── workflows/                ← 10 workflow files
+## Documentation
 
-~/.claude/
-├── CLAUDE.md                     ← global rules for Claude Code
-├── agents/                       ← 10 specialist agents
-└── skills/                       ← 28 skill modules
-```
-
----
-
-## IDE Support
-
-| Feature | Antigravity | Claude Code |
-|---------|:-----------:|:-----------:|
-| Global rules file | ✅ `GEMINI.md` | ✅ `CLAUDE.md` |
-| Specialist agents | ✅ | ✅ |
-| Skills / modules | ✅ | ✅ |
-| Slash workflows | ✅ | ✅ |
-| Hooks system | ❌ | ✅ |
-| MCP servers | ❌ | ✅ |
-| Plan mode | ❌ | ✅ |
-
----
+- [Setup guide](docs/SETUP.md)
+- [Customization guide](docs/CUSTOMIZATION.md)
+- [Contributing guide](docs/CONTRIBUTING.md)
 
 ## Contributing
 
-Want to add a skill, improve an agent, or fix a workflow? PRs are very welcome.
+Please read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening a pull request. Changes should remain focused on the configuration, workflow guidance, skills, agents, and documentation in this repository.
 
-```bash
-git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
-cd antigravity-fullstack-hq
+## License
 
-# Add a new skill
-mkdir skills/your-skill-name
-cat > skills/your-skill-name/SKILL.md << 'EOF'
----
-name: your-skill-name
-description: What this skill covers. Use when [trigger condition].
----
-
-# Your Skill Title
-
-## Section
-Content here...
-EOF
-
-git checkout -b feat/add-your-skill-name
-```
-
-Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening a PR.
-
----
-
-## Credits
-
-Built with inspiration from the community:
-
-- [vudovn/antigravity-kit](https://github.com/vudovn/antigravity-kit)
-- [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills)
-- Vercel Labs official skills
-- Anthropic official skills
-
----
-
-## Star History
-
-<div align="center">
-
-[![Star History Chart](https://api.star-history.com/svg?repos=sabahattink/antigravity-fullstack-hq&type=Date)](https://star-history.com/#sabahattink/antigravity-fullstack-hq&Date)
-
-</div>
-
----
-
-<div align="center">
-
-**[⭐ Star this repo](https://github.com/sabahattink/antigravity-fullstack-hq) · [Report a bug](https://github.com/sabahattink/antigravity-fullstack-hq/issues) · [Request a feature](https://github.com/sabahattink/antigravity-fullstack-hq/issues)**
-
-<br/>
-
-MIT License · Maintained by [Sabahattin Kalkan](https://github.com/sabahattink)
-
-</div>
+MIT License. Maintained by [Sabahattin Kalkan](https://github.com/sabahattink).
