@@ -309,6 +309,6 @@ Built with inspiration from the community:
 
 <br/>
 
-MIT License · Made by [Scuton Technology](https://github.com/scuton-technology)
+MIT License · Maintained by [Sabahattin Kalkan](https://github.com/sabahattink)
 
 </div>
