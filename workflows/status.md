@@ -1,7 +1,7 @@
 ---
 name: status
 description: Progress checkpoint workflow — summarize current state, blockers, and next steps for the active development session.
-trigger: /status
+command: /status
 ---
 
 # Status Workflow

@@ -23,7 +23,7 @@ import {
 
 async function generateReport(data: ReportData): Promise<Buffer> {
   const doc = new Document({
-    creator:     'Antigravity HQ',
+    creator:     'Full Stack HQ',
     title:       data.title,
     description: data.description,
     styles: {
@@ -133,7 +133,7 @@ const doc = new Document({
           children: [
             new Paragraph({
               children: [
-                new TextRun({ text: 'Antigravity HQ — Confidential', color: '6B7280', size: 18 }),
+                new TextRun({ text: 'Full Stack HQ — Confidential', color: '6B7280', size: 18 }),
               ],
               border: {
                 bottom: { style: BorderStyle.SINGLE, size: 1, color: 'E5E7EB' },

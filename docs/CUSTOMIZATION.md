@@ -1,209 +1,178 @@
 # Customization Guide
 
-This guide explains how to customize the Full Stack HQ to match your preferences and tech stack.
+Full Stack HQ has one shared policy core and small host adapters. Customize the
+repository source, render the adapters, validate, then reinstall the selected
+host.
 
-## Customizing GEMINI.md
+## Source of truth
 
-The `GEMINI.md` file is the core configuration. Edit `~/.gemini/GEMINI.md` to customize.
+- Shared policy: core/rules/common.md
+- Host-specific details: adapters/claude/rules.md,
+  adapters/antigravity/rules.md, and adapters/codex/rules.md
+- Specialist agents: agents/*.md
+- Reusable skills: skills/<name>/SKILL.md
+- Workflows: workflows/*.md
 
-### Change Tech Stack
+The files under claude/CLAUDE.md and gemini/GEMINI.md are compatibility
+snapshots. They are generated outputs, not the preferred place for permanent
+changes.
 
-Find the "Tech Stack Defaults" section and modify:
+Render snapshots after changing rules:
 
-```markdown
-## Tech Stack Defaults (Unless Explicitly Overridden)
+    PowerShell: .\scripts\build-adapters.ps1 -SyncSnapshots
+    Bash:       bash scripts/build-adapters.sh --sync-snapshots
 
-### Frontend
-- **Framework**: Vue.js           # Changed from Next.js
-- **Language**: TypeScript
-- **Styling**: UnoCSS             # Changed from Tailwind
+Then validate:
 
-### Backend
-- **Primary**: Express.js         # Changed from NestJS
-```
+    PowerShell: .\scripts\validate.ps1
+    Bash:       bash scripts/validate.sh
 
-### Change Code Style
+## Change shared rules
 
-```markdown
-## Code Style
+Edit core/rules/common.md for behavior that must be consistent across all
+hosts. Keep it concise because Antigravity global rule files have a documented
+character limit.
 
-### TypeScript / JavaScript
-- Semicolons required             # Changed from no semicolons
-- Double quotes (" not ')         # Changed from single quotes
-- 4 spaces indentation            # Changed from 2 spaces
-```
+Use the adapter files only for differences such as:
 
-### Change Approval Keywords
+- native file discovery paths
+- invocation syntax
+- host-specific agent/skill formats
+- sandbox, approval, model, or MCP capability notes
 
-```markdown
-### Explicit Approval Keywords
+Do not add a host-specific command or path to a canonical agent or skill body.
 
-- `GO`
-- `YES`
-- `APPROVED`
-- `LET'S DO IT`
-```
+## Add or update an agent
 
-### Add Forbidden Patterns
+Create or edit agents/my-agent.md:
 
-```markdown
-## Forbidden Patterns
+    ---
+    name: my-agent
+    description: Clear description. Use when a task matches this responsibility.
+    ---
 
-- `any` type in TypeScript
-- `console.log` in production
-- `eval()` anywhere
-- `document.write()`
-- Inline styles in React          # Added
-```
+    # My Agent
 
-### Change Git Conventions
+    You are a specialist for one narrow responsibility.
 
-```markdown
-### Commits
+    ## Guiding principles
+    - State assumptions.
+    - Cite evidence.
+    - Report uncertainty.
 
-Use Gitmoji format:
-- `:sparkles:` new feature
-- `:bug:` bug fix
-- `:recycle:` refactor
-```
+    ## What I do not do
+    - Do not expand the scope without approval.
 
-## Adding Custom Agents
+The Markdown file is the canonical agent body. Claude Code and Antigravity
+consume it directly. The adapter renderer converts it to Codex custom-agent
+TOML with name, description, and developer_instructions.
 
-Create a new file in `~/.gemini/antigravity/agents/`:
+Agent names must match the filename and use lowercase letters, numbers, and
+hyphens.
 
-```markdown
----
-name: my-custom-agent
-description: Description of what this agent does. Use when [specific situations].
----
+## Add or update a skill
 
-# My Custom Agent
+Create or edit skills/my-skill/SKILL.md:
 
-You are a [role] specializing in [expertise].
+    ---
+    name: my-skill
+    description: Explain exactly when this skill should and should not trigger.
+    ---
 
-## Core Expertise
-- ...
+    # My Skill
 
-## Guiding Principles
-- ...
+    ## Use this skill when
+    - ...
 
-## Response Format
-1. ...
-2. ...
+    ## Do not use it when
+    - ...
 
-## What I Do Not Do
-- ...
-```
+    ## Instructions
+    - ...
 
-## Adding Custom Skills
+Skills use the open Agent Skills shape: a directory containing SKILL.md, with
+optional scripts, references, and assets. Keep the description specific so
+implicit activation is reliable on hosts that support it.
 
-Create a new folder in `~/.gemini/antigravity/skills/`:
+Host-native locations after installation:
 
-```
-~/.gemini/antigravity/skills/my-skill/
-└── SKILL.md
-```
+- Antigravity: ~/.gemini/config/skills/
+- Claude Code: ~/.claude/skills/
+- Codex: ~/.agents/skills/
 
-SKILL.md template:
+For project-specific behavior, prefer a repository-local .agents/skills/
+directory so Codex and modern Antigravity can discover the same skill.
 
-```markdown
----
-name: my-skill
-description: Description for when this skill activates. Use when [triggers].
----
+## Add or update a workflow
 
-# My Skill
+Edit workflows/my-workflow.md:
 
-## Use This Skill When
-- ...
+    ---
+    name: my-workflow
+    description: What it does and when to use it.
+    command: /my-workflow
+    ---
 
-## Do Not Use When
-- ...
+    # My Workflow
 
-## Instructions
-...
-```
+    ## Purpose
+    ...
 
-## Adding Custom Workflows
+    ## Process
+    1. Inspect the current state.
+    2. Present a plan and wait for approval.
+    3. Execute only the approved slice.
+    4. Verify and report.
 
-Create a new file in `~/.gemini/antigravity/workflows/`:
+Workflows remain the canonical source for the legacy Antigravity loader. The
+build adapter also removes the command metadata and renders each workflow as a
+skill so Claude Code, Codex, and modern Antigravity can use the same procedure.
 
-```markdown
----
-name: my-workflow
-description: What this workflow does.
-command: /mycommand
----
+Use command metadata consistently. Do not mix command and trigger fields.
 
-# My Workflow
+## Host-specific customization
 
-## Purpose
-...
+### Google Antigravity IDE
 
-## Process
-### Step 1: ...
-### Step 2: ...
+- Global rules: ~/.gemini/GEMINI.md
+- Global agents: ~/.gemini/config/agents/
+- Global skills: ~/.gemini/config/skills/
+- Legacy workflows: ~/.gemini/config/workflows/
 
-## Output Format
-...
-```
+For project-local rules, agents, and skills use the current .agents/ layout.
+The installer refreshes an existing ~/.gemini/antigravity/ tree only as an
+upgrade bridge.
 
-## Per-Project Customization
+### Claude Code
 
-For project-specific rules, create `.agent/rules/` in your project:
+- Global rules: ~/.claude/CLAUDE.md
+- Global agents: ~/.claude/agents/
+- Global skills: ~/.claude/skills/
 
-```
-my-project/
-└── .agent/
-    └── rules/
-        └── PROJECT.md
-```
+Claude Code supports native Markdown agents and skills. Keep their bodies
+portable; use the Claude adapter for host-only notes.
 
-PROJECT.md example:
+### OpenAI Codex
 
-```markdown
----
-name: project-rules
-activation: always
----
+- Global rules: ~/.codex/AGENTS.md
+- Global custom agents: ~/.codex/agents/
+- Global skills: ~/.agents/skills/
+- Project custom agents: .codex/agents/
+- Project skills: .agents/skills/
 
-# Project-Specific Rules
+Codex loads layered AGENTS.md guidance from the Codex home and repository
+directories. A repository root AGENTS.md can document contribution and
+verification rules without being installed as a global file.
 
-This project uses:
-- MongoDB instead of PostgreSQL
-- Mongoose instead of Prisma
-- Express instead of NestJS
+If AGENTS.override.md exists in the active Codex home, it takes precedence over
+the global AGENTS.md. The installer does not replace it; keep overrides small
+and review them when shared policy changes.
 
-Override global rules accordingly.
-```
+Codex custom-agent files are TOML. Do not hand-copy Markdown into a TOML file;
+run the adapter builder so metadata and multiline instructions stay synchronized.
 
-## Tips
+## One-off installed changes
 
-### Keep It Simple
-
-Do not over-customize. Start with defaults and adjust as needed.
-
-### Test Changes
-
-After modifying GEMINI.md:
-1. Restart Antigravity
-2. Start new conversation
-3. Test with a simple prompt
-
-### Version Control
-
-Consider keeping your customizations in a Git repo:
-
-```bash
-cd ~/.gemini
-git init
-git add .
-git commit -m "My Antigravity configuration"
-```
-
-### Share Team Settings
-
-For team consistency, share customizations via:
-1. Team Git repository
-2. Shared installation script
-3. Documentation
+For a local experiment, you may edit the installed host file directly and
+restart the host. For a reusable change, edit the repository source, render,
+validate, and reinstall with DryRun first.

@@ -1,15 +1,15 @@
 ---
-title: I built a permission-first CLAUDE.md + agent stack for Claude Code (free, MIT)
-tags: claudecode, ai, devtools, productivity
+title: I built a permission-first, tool-agnostic AI engineering stack (free, MIT)
+tags: claudecode, codex, antigravity, ai, devtools, productivity
 ---
 
-I've been using Claude Code daily for months. And I kept hitting the same wall:
+I've been using AI coding agents daily for months. And I kept hitting the same wall:
 
 The agent would just **start doing things**. No plan. No approval. Just... acting.
 
 It deleted files I didn't want deleted. It refactored things I didn't ask it to refactor. It made "helpful" assumptions that broke my architecture.
 
-So I built **Full Stack HQ** — a configuration kit that encodes a permission-first workflow. Here's what I learned.
+So I built **Full Stack HQ** — a configuration kit that encodes a permission-first workflow across Claude Code, Google Antigravity IDE, and OpenAI Codex. Here's what I learned.
 
 ---
 
@@ -62,11 +62,12 @@ The rules define these as the approval phrases. They are prompt/configuration gu
 
 | Component | Count | Description |
 |-----------|:-----:|-------------|
-| `CLAUDE.md` | 1 | Global rules for Claude Code |
-| `GEMINI.md` | 1 | Global rules for Google Antigravity IDE |
+| Shared rule core | 1 | Host-neutral engineering policy |
+| Host adapters | 3 | Claude Code, Antigravity, and Codex |
+| `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` | 3 | Generated host instruction files |
 | Agents | 10 | Specialist AI personas |
 | Skills | 28 | Domain-specific knowledge modules |
-| Workflows | 10 | Antigravity workflow files |
+| Workflows | 10 | Legacy workflows plus skill bridges |
 
 ### 10 Specialist Agents
 
@@ -100,7 +101,7 @@ Deep knowledge modules for the tools you actually use:
 - **Testing**: `test-driven-development`, `systematic-debugging`, `webapp-testing`
 - **Meta**: `brainstorming`, `prompt-engineering`, `skill-creator`
 
-### 10 Workflows (Antigravity Commands)
+### 10 Workflows (Cross-host procedures)
 
 ```
 /plan       → phased breakdown with approval checkpoints
@@ -110,6 +111,11 @@ Deep knowledge modules for the tools you actually use:
 /enhance    → improve existing code quality
 /test       → generate or fix tests
 /orchestrate → coordinate multiple agents
+/ui-ux-pro-max → structured UI/UX review
+
+The canonical workflow bodies remain in `workflows/`. The installer keeps the
+Antigravity legacy form and also renders each one as a skill for Claude Code,
+Codex, and modern Antigravity.
 ```
 
 ---
@@ -140,7 +146,9 @@ Set-Location antigravity-fullstack-hq
 ```bash
 ./install.sh --only-claude        # Claude Code only
 ./install.sh --only-antigravity   # Antigravity only
-./install.sh --force              # Skip the global-rules overwrite prompt
+./install.sh --only-codex         # OpenAI Codex only
+./install.sh --dry-run            # Preview without writing targets
+./install.sh --force --backup     # Replace managed files with backups
 ```
 
 The scripts perform pre-flight checks and install the selected host files.
@@ -157,17 +165,23 @@ The scripts perform pre-flight checks and install the selected host files.
 
 ~/.gemini/
 ├── GEMINI.md          ← global rules (Antigravity)
-└── antigravity/
+└── config/
     ├── agents/
     ├── skills/
-    └── workflows/
+    └── workflows/     ← legacy bridge
+
+~/.codex/
+├── AGENTS.md          ← global rules (Codex)
+└── agents/            ← TOML custom agents
+
+~/.agents/skills/      ← shared Codex skills
 ```
 
 ---
 
-## The CLAUDE.md philosophy
+## The shared rule-core philosophy
 
-The rules file describes several things I found critical in practice:
+The shared rules describe several things I found critical in practice:
 
 **1. Separation of planning and execution**
 
@@ -203,4 +217,5 @@ Full Stack HQ encodes this discipline in its global rules and workflow files.
 
 MIT license. Open to PRs — especially new agents and skills.
 
-What does your current CLAUDE.md look like? I'd love to see what rules others have found valuable.
+What does your current shared agent configuration look like? I'd love to see
+what rules others have found valuable across their preferred hosts.

@@ -57,7 +57,7 @@ When asked about DevOps topics:
 
 ## Boundaries
 
-As per GEMINI.md rules:
+As required by the shared engineering rules:
 - I can SUGGEST pipeline improvements
 - I can EXPLAIN concepts
 - I CANNOT create pipeline files

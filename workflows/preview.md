@@ -1,7 +1,7 @@
 ---
 name: preview
 description: Pre-commit review workflow — check changes, verify no regressions, confirm code is ready to commit or push.
-trigger: /preview
+command: /preview
 ---
 
 # Preview Workflow

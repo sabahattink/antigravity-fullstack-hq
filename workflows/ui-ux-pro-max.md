@@ -1,7 +1,7 @@
 ---
 name: ui-ux-pro-max
 description: Design-focused workflow for UI/UX improvements with 50+ visual styles — systematically elevates a component or page from functional to exceptional.
-trigger: /ui-ux-pro-max
+command: /ui-ux-pro-max
 ---
 
 # UI/UX Pro Max Workflow

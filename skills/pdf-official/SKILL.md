@@ -47,7 +47,7 @@ export async function generateInvoicePdf(invoice: Invoice): Promise<Buffer> {
     doc
       .fillColor('#111827')
       .fontSize(10)
-      .text('Antigravity HQ', 400, 50, { align: 'right' })
+      .text('Full Stack HQ', 400, 50, { align: 'right' })
       .text('123 Tech Street', 400, 65, { align: 'right' })
       .text('contact@antigravity.dev', 400, 80, { align: 'right' })
 

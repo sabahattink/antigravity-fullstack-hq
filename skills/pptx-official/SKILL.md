@@ -21,8 +21,8 @@ async function generatePresentation(data: PresentationData): Promise<Buffer> {
   const pptx = new PptxGenJS()
 
   // Global settings
-  pptx.author  = 'Antigravity HQ'
-  pptx.company = 'Antigravity'
+  pptx.author  = 'Full Stack HQ'
+  pptx.company = 'Full Stack HQ'
   pptx.title   = data.title
   pptx.subject = data.subject
   pptx.layout  = 'LAYOUT_WIDE'  // 16:9

@@ -10,8 +10,14 @@ assignees: ''
 What would you like to understand better?
 
 ## Context
-What part of Antigravity are you referring to?
-(Agent, workflow, skill, philosophy, etc.)
+What part of Full Stack HQ are you referring to?
+(Agent, workflow, skill, installer, adapter, philosophy, etc.)
+
+## Host
+- [ ] Google Antigravity IDE
+- [ ] Claude Code
+- [ ] OpenAI Codex
+- [ ] Host-independent
 
 ## What Have You Tried?
 (Optional) What did you read or attempt before asking?

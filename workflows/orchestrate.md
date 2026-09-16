@@ -1,7 +1,7 @@
 ---
 name: orchestrate
 description: Multi-agent coordination workflow — assign specialists, coordinate parallel work, track handoffs between agents or developers for complex features.
-trigger: /orchestrate
+command: /orchestrate
 ---
 
 # Orchestrate Workflow

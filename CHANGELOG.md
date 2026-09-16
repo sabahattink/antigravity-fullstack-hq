@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-09-16
+
+### Added — Tool-agnostic core and Codex support
+- `core/rules/common.md` as the shared policy source of truth
+- Thin host adapters for Google Antigravity IDE, Claude Code, and OpenAI Codex
+- Codex `AGENTS.md` rendering and TOML custom-agent adapters for all 10 agents
+- Workflow-to-skill bridge so all 10 workflows are reusable on every host
+- Repository-level `AGENTS.md` with contribution and verification guidance
+
+### Updated — Installers and migration safety
+- Added `--only-codex` / `-OnlyCodex`
+- Added `--dry-run` / `-DryRun`, `--backup` / `-Backup`, and `--check` / `-Check`
+- Added `--target-root` / `-TargetRoot` for isolated installer smoke tests
+- Switched Antigravity global agents and skills to documented `~/.gemini/config/`
+  paths while refreshing an existing legacy tree as a compatibility bridge
+- Existing managed agent and skill files are kept unless Force is selected
+- Warns when Codex `AGENTS.override.md` would take precedence over the
+  installed global rules
+- Added source and adapter validators for PowerShell and Bash
+
+### Added — Continuous validation
+- Added a least-privilege GitHub Actions job for Windows and Ubuntu validation
+- Normalized workflow metadata from mixed `command`/`trigger` to `command`
+- Removed accidental host branding from portable examples
+- Added Antigravity rule-size and workflow/skill collision guards
+- Kept PowerShell and Bash renderer output equivalent
+
 ## [1.0.0] - 2026-05-15
 
 ### Added — Claude Code Support

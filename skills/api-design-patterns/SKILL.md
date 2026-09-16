@@ -206,7 +206,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   const config = new DocumentBuilder()
-    .setTitle('Antigravity API')
+    .setTitle('Example API')
     .setDescription('Backend API documentation')
     .setVersion('1.0')
     .addBearerAuth(

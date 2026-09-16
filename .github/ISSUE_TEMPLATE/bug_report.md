@@ -13,8 +13,15 @@ Clearly describe the issue you encountered.
 - [ ] Agent
 - [ ] Workflow
 - [ ] Skill
+- [ ] Installer or adapter
 - [ ] Documentation
 - [ ] Repository structure
+
+## Host
+- [ ] Google Antigravity IDE
+- [ ] Claude Code
+- [ ] OpenAI Codex
+- [ ] Host-independent
 
 ## Expected Behavior
 What did you expect to happen?
@@ -23,5 +30,5 @@ What did you expect to happen?
 What actually happened?
 
 ## Context
-How were you using Antigravity when this occurred?
+How were you using Full Stack HQ when this occurred?
 Any relevant details help.

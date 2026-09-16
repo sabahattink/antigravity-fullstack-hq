@@ -18,7 +18,7 @@ import ExcelJS from 'exceljs'
 
 export async function generateExcelReport(data: ReportData): Promise<Buffer> {
   const workbook  = new ExcelJS.Workbook()
-  workbook.creator    = 'Antigravity HQ'
+  workbook.creator    = 'Full Stack HQ'
   workbook.lastModifiedBy = 'system'
   workbook.created    = new Date()
   workbook.modified   = new Date()
