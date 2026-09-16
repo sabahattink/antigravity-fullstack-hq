@@ -1,251 +1,339 @@
 # Full Stack HQ
 
-A tool-agnostic, permission-first AI engineering configuration kit for Google
-Antigravity IDE, Claude Code, and OpenAI Codex.
+<div align="center">
 
-Full Stack HQ packages shared engineering rules, specialist agents, reusable
-skills, workflow bridges, and safe installers. It is a configuration and
-documentation repository—not a SaaS product, agent runtime, application
-framework, or hard security boundary.
+<p><strong>One engineering core. Three AI-native hosts.</strong></p>
 
-> The permission model is instruction-level guidance. The host still controls
-> actual tools, approvals, sandboxing, network access, and filesystem behavior.
+<p>Tool-agnostic, permission-first engineering configuration for<br />
+Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+<p>
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#whats-inside">What's inside</a> ·
+  <a href="docs/SETUP.md">Setup guide</a>
+</p>
 
-## What is included
+<p>
+  <a href="https://github.com/sabahattink/antigravity-fullstack-hq/actions/workflows/validate.yml"><img src="https://github.com/sabahattink/antigravity-fullstack-hq/actions/workflows/validate.yml/badge.svg?branch=main" alt="Validate" /></a>
+  <a href="https://github.com/sabahattink/antigravity-fullstack-hq/releases"><img src="https://img.shields.io/github/v/release/sabahattink/antigravity-fullstack-hq?display_name=tag&sort=semver&color=7c3aed" alt="Latest release" /></a>
+  <a href="https://github.com/sabahattink/antigravity-fullstack-hq/stargazers"><img src="https://img.shields.io/github/stars/sabahattink/antigravity-fullstack-hq?style=flat&color=f59e0b" alt="GitHub stars" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-22c55e?style=flat" alt="License: MIT" /></a>
+</p>
 
-| Component | Count | Role |
-|-----------|:-----:|------|
-| Shared rule core | 1 | Host-neutral engineering policy |
-| Host adapters | 3 | Claude Code, Antigravity, and Codex integration layers |
-| Agents | 10 | Specialist role definitions |
-| Skills | 28 | Reusable domain guidance modules |
-| Workflows | 10 | Canonical workflows plus generated skill bridges |
-| Validators | 2 | PowerShell and Bash source/adapter checks |
+</div>
 
-The existing top-level agents/, skills/, and workflows/ directories remain the
-public source layout. This keeps existing customizations and links usable while
-adding a proper adapter seam.
+> **The short version:** keep the engineering policy in one readable source,
+> then render only the host-specific details each AI tool needs.
+
+Full Stack HQ is a configuration and documentation kit for serious software
+work. It gives AI coding hosts a shared operating model for planning,
+specialist routing, implementation, testing, security, and verification while
+preserving each host's native configuration format.
+
+It is **not** a SaaS product, agent runtime, application framework, or hard
+security boundary. The host still controls tools, approvals, sandboxing,
+network access, and filesystem behavior.
+
+## The experience
+
+The repository is designed to feel like a small engineering control plane:
+
+```console
+$ bash install.sh --only-codex --backup
+
+FULL STACK HQ / CODEX ADAPTER
+────────────────────────────────────────────────────────
+ source      ✓  validated
+ rules       →  ~/.codex/AGENTS.md
+ agents      →  ~/.codex/agents/*.toml       10 specialists
+ skills      →  ~/.agents/skills/            28 + 10 workflow bridges
+ result      ✓  ready for a new Codex session
+
+$ .\install.ps1 -OnlyClaude -Backup
+```
+
+The terminal above is a representative flow. Run the validator and installer
+from a local checkout to see the exact output for your machine.
+
+## Why this exists
+
+| Principle | What it gives you |
+|---|---|
+| **One source of truth** | Shared engineering behavior lives in `core/`, not in three drifting copies. |
+| **Native adapters** | Claude Code, Antigravity, and Codex receive the format and paths they understand. |
+| **Permission-first** | The workflow asks for scope and approval before an approved implementation slice. |
+| **Safe migration** | Existing files are preserved by default; backups, dry-runs, and legacy bridges are available. |
+| **Evidence over confidence** | Validation and verification states distinguish changed, failed, and unverified results. |
 
 ## Architecture
 
-    core/rules/common.md
-            │
-            ├── adapters/claude/rules.md       ──► ~/.claude/CLAUDE.md
-            ├── adapters/antigravity/rules.md  ──► ~/.gemini/GEMINI.md
-            └── adapters/codex/rules.md        ──► ~/.codex/AGENTS.md
+```mermaid
+flowchart TB
+    core["core/rules/common.md<br/>Shared engineering policy"]
+    agents["agents/*.md<br/>Canonical specialist roles"]
+    skills["skills/*/SKILL.md<br/>Canonical reusable skills"]
+    workflows["workflows/*.md<br/>Canonical workflows"]
+    renderer["scripts/build-adapters.*<br/>Cross-platform renderer"]
 
-    agents/*.md ──────────────────────────────► Claude / Antigravity native agents
-                 └────────────────────────────► Codex .toml custom agents
+    core --> claude["Claude Code adapter<br/>~/.claude/CLAUDE.md"]
+    core --> antigravity["Antigravity adapter<br/>~/.gemini/GEMINI.md"]
+    core --> codex["Codex adapter<br/>~/.codex/AGENTS.md"]
 
-    skills/*/SKILL.md ────────────────────────► all three hosts
-    workflows/*.md ───────────────────────────► Antigravity legacy workflows
-                 └────────────────────────────► workflow skills for all hosts
+    agents --> claudeAgents["Native agents<br/>~/.claude/agents/"]
+    agents --> antiAgents["Native agents<br/>~/.gemini/config/agents/"]
+    agents --> codexAgents["TOML custom agents<br/>~/.codex/agents/"]
 
-The core is the deep module: callers learn one stable engineering policy and
-each host adapter carries only the details that genuinely vary. The renderer
-keeps generated files synchronized:
+    skills --> claudeSkills["Claude skills"]
+    skills --> antiSkills["Antigravity skills"]
+    skills --> codexSkills["Codex Agent Skills<br/>~/.agents/skills/"]
 
-    scripts/build-adapters.ps1
-    scripts/build-adapters.sh
+    workflows --> legacy["Antigravity legacy<br/>workflow bridge"]
+    workflows --> workflowSkills["Workflow-to-skill bridges<br/>all three hosts"]
 
-Generated output is temporary by default. To refresh the compatibility
-snapshots in claude/CLAUDE.md and gemini/GEMINI.md, run:
+    renderer -. renders .-> claude
+    renderer -. renders .-> antigravity
+    renderer -. renders .-> codexAgents
+    renderer -. renders .-> workflowSkills
+```
 
-    PowerShell: .\scripts\build-adapters.ps1 -SyncSnapshots
-    Bash:       bash scripts/build-adapters.sh --sync-snapshots
+The core is the deep module: callers learn one stable engineering policy, and
+each adapter carries only the details that genuinely vary. The existing
+top-level `agents/`, `skills/`, and `workflows/` paths remain public so current
+customizations and links continue to work.
 
-## Native host mapping
+### The source-to-host contract
 
-| Capability | Google Antigravity IDE | Claude Code | OpenAI Codex |
+| Source | Claude Code | Google Antigravity IDE | OpenAI Codex |
 |---|---|---|---|
-| Global rules | ~/.gemini/GEMINI.md | ~/.claude/CLAUDE.md | ~/.codex/AGENTS.md |
-| Agents | ~/.gemini/config/agents/ | ~/.claude/agents/ | ~/.codex/agents/*.toml |
-| Skills | ~/.gemini/config/skills/ | ~/.claude/skills/ | ~/.agents/skills/ |
-| Workflows | ~/.gemini/config/workflows/ (legacy bridge) | Generated skills | Generated skills |
-| Project-local guidance | .agents/ | .claude/ / CLAUDE.md | AGENTS.md, .codex/, .agents/ |
+| Shared rules | `~/.claude/CLAUDE.md` | `~/.gemini/GEMINI.md` | `~/.codex/AGENTS.md` |
+| Agents | `~/.claude/agents/` | `~/.gemini/config/agents/` | `~/.codex/agents/*.toml` |
+| Skills | `~/.claude/skills/` | `~/.gemini/config/skills/` | `~/.agents/skills/` |
+| Workflows | Generated skills | `~/.gemini/config/workflows/` plus bridge | Generated skills |
+| Project guidance | `.claude/` / `CLAUDE.md` | `.agents/` | `AGENTS.md`, `.codex/`, `.agents/` |
 
-The Codex adapter follows its current native formats: AGENTS.md for layered
-instructions, Agent Skills for reusable workflows, and TOML custom agents with
-name, description, and developer_instructions.
+The Codex adapter uses its current native formats: layered `AGENTS.md`
+instructions, Agent Skills for reusable procedures, and TOML custom agents with
+`name`, `description`, and `developer_instructions`.
 
-- Codex AGENTS.md: https://learn.chatgpt.com/docs/agent-configuration/agents-md
-- Codex skills: https://learn.chatgpt.com/docs/build-skills
-- Codex custom agents: https://learn.chatgpt.com/docs/agent-configuration/subagents
-- Claude Code skills: https://code.claude.com/docs/en/skills
-- Antigravity rules and workflows: https://antigravity.google/docs/rules-workflows
+<details>
+<summary><strong>Native format references</strong></summary>
 
-## Workflow model
+- [Codex AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
+- [Codex Agent Skills](https://learn.chatgpt.com/docs/build-skills)
+- [Codex custom agents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+- [Claude Code skills](https://code.claude.com/docs/en/skills)
+- [Antigravity rules and workflows](https://antigravity.google/docs/rules-workflows)
 
-The shared rules describe a controlled engineering workflow:
+</details>
 
-1. Inspect the real state and identify the relevant specialist.
-2. Present scope, assumptions, risk, and the proposed change.
-3. Wait for explicit approval before executing the approved slice.
-4. Verify the result and report changed, failed, and unverified checks.
+## Quick start
 
-The configured approval phrases are:
-
-    PLAN APPROVED
-    IMPLEMENTATION APPROVED
-    PROCEED
-    DO IT
-
-These phrases are prompt/configuration guidance. They do not intercept shell
-commands or guarantee host-agent behavior.
-
-## Installation
-
-Run installers from a local checkout; they do not install runtimes or packages.
+Choose one or more hosts. The default installs all three integrations.
 
 ### macOS / Linux
 
-    git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
-    cd antigravity-fullstack-hq
-    bash install.sh
+```console
+$ git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+$ cd antigravity-fullstack-hq
+$ bash install.sh
+```
 
 ### Windows PowerShell
 
-    git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
-    Set-Location antigravity-fullstack-hq
-    .\install.ps1
+```powershell
+PS> git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+PS> Set-Location antigravity-fullstack-hq
+PS> .\install.ps1
+```
 
-By default, all three integrations are prepared. Existing global instruction
-files are confirmed interactively. Existing agent and skill files are kept
-unless --force / -Force is provided.
+### Install one host only
 
-Useful options:
+```console
+# macOS / Linux
+$ bash install.sh --only-codex
+$ bash install.sh --only-claude
+$ bash install.sh --only-antigravity
+```
 
-| PowerShell | Bash | Effect |
+```powershell
+# Windows PowerShell
+PS> .\install.ps1 -OnlyCodex
+PS> .\install.ps1 -OnlyClaude
+PS> .\install.ps1 -OnlyAntigravity
+```
+
+### Safe upgrade controls
+
+| PowerShell | Bash | Use it when you want to... |
 |---|---|---|
-| -OnlyAntigravity | --only-antigravity | Antigravity only |
-| -OnlyClaude | --only-claude | Claude Code only |
-| -OnlyCodex | --only-codex | Codex only |
-| -Force | --force | Replace managed files without prompts |
-| -Backup | --backup | Back up files replaced by the installer |
-| -DryRun | --dry-run | Preview changes without writing targets |
-| -TargetRoot DIR | --target-root DIR | Install into an isolated home-like directory for testing |
-| -NoLegacyPaths | --no-legacy-paths | Do not refresh an existing Antigravity legacy tree |
-| -Check | --check | Validate source and adapter generation |
+| `-DryRun` | `--dry-run` | Preview changes without writing target files. |
+| `-Backup` | `--backup` | Keep timestamped copies of replaced files. |
+| `-Force` | `--force` | Replace managed files after reviewing the change. |
+| `-TargetRoot DIR` | `--target-root DIR` | Test inside an isolated home-like directory. |
+| `-NoLegacyPaths` | `--no-legacy-paths` | Skip refreshing an existing Antigravity legacy tree. |
+| `-Check` | `--check` | Validate source and adapter generation before installing. |
 
-For an upgrade, the recommended safe command is:
+For a conservative upgrade:
 
-    PowerShell: .\install.ps1 -Force -Backup
-    Bash:       bash install.sh --force --backup
+```console
+# macOS / Linux
+$ bash install.sh --dry-run
+$ bash install.sh --force --backup
+```
 
-Restart each host application and start a new conversation after installation.
+```powershell
+# Windows PowerShell
+PS> .\install.ps1 -DryRun
+PS> .\install.ps1 -Force -Backup
+```
 
-### Antigravity compatibility
+Existing global instruction files are confirmed interactively. Existing agent
+and skill files are kept unless `Force` is selected. Restart the host
+application and start a new conversation after installation.
 
-Current Antigravity global agents and skills are installed under
-~/.gemini/config/. If an older Full Stack HQ installation already has
-~/.gemini/antigravity/, the installer refreshes its matching files as a
-compatibility bridge unless -NoLegacyPaths / --no-legacy-paths is selected.
-No legacy tree is created for a new installation.
+## First run
 
-### Codex scope
+Use a small, reversible prompt to check that the configuration is loaded:
 
-Codex user skills are installed under ~/.agents/skills/; custom agents and
-global instructions use the active Codex home, normally ~/.codex/. If CODEX_HOME
-is set, the installer uses that directory for AGENTS.md and custom agents while
-keeping user skills in ~/.agents/skills/.
+```text
+Create a React component called UserCard
+```
 
-If ~/.codex/AGENTS.override.md exists, Codex prioritizes it over AGENTS.md.
-The installer warns about this and leaves the override untouched; merge any
-desired local policy there deliberately.
+The intended engineering loop is:
+
+```text
+inspect → scope → approval → implement → verify → report
+```
+
+This is instruction-level guidance. It does not intercept shell commands or
+guarantee runtime permissions.
+
+## What's inside
+
+| Directory / file | Role |
+|---|---|
+| `core/rules/common.md` | Host-neutral engineering policy and shared behavior. |
+| `adapters/` | Thin Claude, Antigravity, and Codex integration layers. |
+| `agents/` | 10 canonical specialist role definitions. |
+| `skills/` | 28 canonical Agent Skills for recurring engineering tasks. |
+| `workflows/` | 10 canonical workflows and the Antigravity compatibility source. |
+| `scripts/build-adapters.*` | Render host files and workflow skill bridges. |
+| `scripts/validate.*` | PowerShell and Bash source/adapter validators. |
+| `install.ps1` / `install.sh` | Safe, selective, cross-platform installers. |
+
+### Specialist agents
+
+| Agent | Focus |
+|---|---|
+| `frontend-specialist` | React, Next.js, Tailwind, and UI/UX |
+| `backend-specialist` | NestJS, APIs, queues, and Redis |
+| `database-specialist` | Prisma, PostgreSQL, and migrations |
+| `architect` | System design, ADRs, and trade-offs |
+| `code-reviewer` | Quality, patterns, and security |
+| `test-engineer` | Vitest, Jest, and Playwright |
+| `security-auditor` | Auth, OWASP, and input validation |
+| `devops-engineer` | Docker, CI/CD, and deployment |
+| `performance-optimizer` | Bundles, queries, and rendering |
+| `documentation-writer` | Technical writing, READMEs, and ADRs |
+
+### Canonical skills
+
+The 28 skills are grouped around the work they support:
+
+| Area | Skills |
+|---|---|
+| Frontend | `react-best-practices`, `typescript-patterns`, `tailwind-patterns`, `frontend-design`, `web-design-guidelines`, `nextjs-app-router` |
+| Backend | `nestjs-patterns`, `backend-dev-guidelines`, `software-architecture`, `api-design-patterns`, `prisma-workflow` |
+| Testing | `test-driven-development`, `systematic-debugging`, `webapp-testing` |
+| DevOps | `docker-patterns`, `github-actions`, `deployment-guide` |
+| Auth and security | `auth-patterns`, `security-checklist` |
+| Documents | `docx-official`, `pdf-official`, `pptx-official`, `xlsx-official` |
+| Meta | `brainstorming`, `skill-creator`, `code-review-patterns`, `git-workflow`, `prompt-engineering` |
+
+### Workflow catalog
+
+The canonical workflows remain in `workflows/`. They are also rendered as
+skills so the same procedures can be used across all three hosts:
+
+| Workflow | Purpose | Native invocation |
+|---|---|---|
+| `plan` | Break work into phases and approval checkpoints. | `/plan` · `$plan` |
+| `brainstorm` | Explore options before implementation. | `/brainstorm` · `$brainstorm` |
+| `create` | Implement an approved plan. | `/create` · `$create` |
+| `debug` | Perform systematic root-cause analysis. | `/debug` · `$debug` |
+| `enhance` | Improve existing code quality. | `/enhance` · `$enhance` |
+| `test` | Design or improve meaningful tests. | `/test` · `$test` |
+| `status` | Record progress, blockers, and next steps. | `/status` · `$status` |
+| `preview` | Review quality, security, and readiness. | `/preview` · `$preview` |
+| `orchestrate` | Coordinate specialist workstreams. | `/orchestrate` · `$orchestrate` |
+| `ui-ux-pro-max` | Run a structured UI/UX review. | `/ui-ux-pro-max` · `$ui-ux-pro-max` |
+
+The exact invocation is host-native: Antigravity and Claude commonly expose
+slash commands, while Codex exposes skill selection and `$skill-name`
+invocation.
+
+## Compatibility and migration
+
+- Existing top-level `agents/`, `skills/`, and `workflows/` paths remain intact.
+- New Antigravity installations use documented `~/.gemini/config/` locations.
+- An existing `~/.gemini/antigravity/` tree is refreshed as a compatibility
+  bridge unless `--no-legacy-paths` / `-NoLegacyPaths` is selected.
+- New installations do not create the legacy Antigravity tree.
+- Codex user skills are installed under `~/.agents/skills/`.
+- Codex global rules and custom agents use `CODEX_HOME` when it is set,
+  otherwise the active `~/.codex/` directory.
+- If `~/.codex/AGENTS.override.md` exists, Codex prioritizes it. The installer
+  warns about the override and never overwrites it.
 
 There is intentionally no separate Codex workflow directory. The canonical
-workflow bodies are converted to skills because skills are the current
+workflow bodies are converted to Agent Skills because skills are the current
 shareable workflow format.
 
 ## Verification
 
-Validate the repository before installing:
+Validate the repository before installing or proposing a release:
 
-    PowerShell: .\scripts\validate.ps1
-    Bash:       bash scripts/validate.sh
+```console
+# Windows PowerShell
+PS> .\scripts\validate.ps1
+PS> .\install.ps1 -Check
+```
 
-Preview an upgrade without touching the user's home:
+```console
+# macOS / Linux
+$ bash scripts/validate.sh
+$ bash install.sh --check
+```
 
-    PowerShell: .\install.ps1 -DryRun
-    Bash:       bash install.sh --dry-run
+The validators check:
 
-Then test each host with a small, reversible prompt such as:
+- YAML frontmatter and name/path consistency.
+- Skill and workflow metadata.
+- Canonical content for accidental host-specific leakage.
+- Codex TOML agent generation.
+- Workflow-to-skill conversion counts.
+- Antigravity rule-size limits and workflow/skill name collisions.
+- Cross-platform renderer parity.
 
-    Create a React component called UserCard
-
-The expected behavior is that the agent states scope, requests approval, and
-reports verification. This is an instruction-level expectation, not a runtime
-permission guarantee.
-
-## Agents
-
-| Agent | Focus |
-|-------|-------|
-| frontend-specialist | React, Next.js, Tailwind, and UI/UX |
-| backend-specialist | NestJS, APIs, queues, and Redis |
-| database-specialist | Prisma, PostgreSQL, and migrations |
-| architect | System design, ADRs, and trade-offs |
-| code-reviewer | Quality, patterns, and security |
-| test-engineer | Vitest, Jest, and Playwright |
-| security-auditor | Auth, OWASP, and input validation |
-| devops-engineer | Docker, CI/CD, and deployment |
-| performance-optimizer | Bundles, queries, and rendering |
-| documentation-writer | Technical writing, READMEs, and ADRs |
-
-## Skills
-
-The 28 canonical skills are grouped by purpose:
-
-| Area | Skills |
-|------|--------|
-| Frontend | react-best-practices, typescript-patterns, tailwind-patterns, frontend-design, web-design-guidelines, nextjs-app-router |
-| Backend | nestjs-patterns, backend-dev-guidelines, software-architecture, api-design-patterns, prisma-workflow |
-| Testing | test-driven-development, systematic-debugging, webapp-testing |
-| DevOps | docker-patterns, github-actions, deployment-guide |
-| Auth and security | auth-patterns, security-checklist |
-| Documents | docx-official, pdf-official, pptx-official, xlsx-official |
-| Meta | brainstorming, skill-creator, code-review-patterns, git-workflow, prompt-engineering |
-
-## Workflows
-
-The 10 canonical workflows remain in workflows/ for Antigravity's legacy
-workflow loader. The installer also generates them as skills so the same
-procedures are available through the native selector on Claude Code, Codex, and
-modern Antigravity:
-
-| Name | Purpose |
-|------|---------|
-| /plan / $plan | Break work into phases and approval checkpoints |
-| /brainstorm / $brainstorm | Explore options before implementation |
-| /create / $create | Implement an approved plan |
-| /debug / $debug | Perform systematic root-cause analysis |
-| /enhance / $enhance | Improve existing code quality |
-| /test / $test | Design or improve meaningful tests |
-| /status / $status | Record progress, blockers, and next steps |
-| /preview / $preview | Review quality, security, and readiness |
-| /orchestrate / $orchestrate | Coordinate specialist workstreams |
-| /ui-ux-pro-max / $ui-ux-pro-max | Run a structured UI/UX review |
-
-The exact invocation is host-native: Antigravity and Claude commonly expose
-slash commands, while Codex exposes skill selection and $skill-name
-invocation.
+The repository also runs least-privilege validation on Windows and Ubuntu for
+every push to `main` and every pull request.
 
 ## Documentation
 
-- Setup guide: docs/SETUP.md
-- Customization guide: docs/CUSTOMIZATION.md
-- Contributing guide: docs/CONTRIBUTING.md
-- Core and adapter design: core/README.md
+- [Setup guide](docs/SETUP.md) — installation, upgrades, migration, and troubleshooting.
+- [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
+- [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
+- [Core and adapter design](core/README.md) — the source-of-truth model.
+- [Security policy](SECURITY.md) — reporting and security boundaries.
+- [Changelog](CHANGELOG.md) — release history.
 
 ## Contributing
 
-Please read docs/CONTRIBUTING.md before opening a pull request. Changes should
-remain focused on the core, adapters, installers, validators, skills, agents,
-workflows, and documentation.
+Please read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening a pull
+request. Changes should remain focused on the core, adapters, installers,
+validators, skills, agents, workflows, and documentation.
 
 ## License
 
-MIT License. Maintained by Sabahattin Kalkan:
-https://github.com/sabahattink
+MIT License. Maintained by [Sabahattin Kalkan](https://github.com/sabahattink).
