@@ -35,6 +35,10 @@ It is **not** a SaaS product, agent runtime, application framework, or hard
 security boundary. The host still controls tools, approvals, sandboxing,
 network access, and filesystem behavior.
 
+<p align="center">
+  <img src="docs/assets/hero-terminal.svg" alt="Illustrative Full Stack HQ terminal flow showing Codex validation, global rules, ten custom agents, and reusable skills" />
+</p>
+
 ## The experience
 
 The repository is designed to feel like a small engineering control plane:
@@ -68,34 +72,9 @@ from a local checkout to see the exact output for your machine.
 
 ## Architecture
 
-```mermaid
-flowchart TB
-    core["core/rules/common.md<br/>Shared engineering policy"]
-    agents["agents/*.md<br/>Canonical specialist roles"]
-    skills["skills/*/SKILL.md<br/>Canonical reusable skills"]
-    workflows["workflows/*.md<br/>Canonical workflows"]
-    renderer["scripts/build-adapters.*<br/>Cross-platform renderer"]
-
-    core --> claude["Claude Code adapter<br/>~/.claude/CLAUDE.md"]
-    core --> antigravity["Antigravity adapter<br/>~/.gemini/GEMINI.md"]
-    core --> codex["Codex adapter<br/>~/.codex/AGENTS.md"]
-
-    agents --> claudeAgents["Native agents<br/>~/.claude/agents/"]
-    agents --> antiAgents["Native agents<br/>~/.gemini/config/agents/"]
-    agents --> codexAgents["TOML custom agents<br/>~/.codex/agents/"]
-
-    skills --> claudeSkills["Claude skills"]
-    skills --> antiSkills["Antigravity skills"]
-    skills --> codexSkills["Codex Agent Skills<br/>~/.agents/skills/"]
-
-    workflows --> legacy["Antigravity legacy<br/>workflow bridge"]
-    workflows --> workflowSkills["Workflow-to-skill bridges<br/>all three hosts"]
-
-    renderer -. renders .-> claude
-    renderer -. renders .-> antigravity
-    renderer -. renders .-> codexAgents
-    renderer -. renders .-> workflowSkills
-```
+<p align="center">
+  <img src="docs/assets/architecture.svg" alt="Architecture diagram showing the shared source of truth rendered through an adapter layer into Claude Code, Google Antigravity IDE, and OpenAI Codex" />
+</p>
 
 The core is the deep module: callers learn one stable engineering policy, and
 each adapter carries only the details that genuinely vary. The existing
@@ -194,6 +173,10 @@ application and start a new conversation after installation.
 
 ## First run
 
+<p align="center">
+  <img src="docs/assets/workflow-loop.svg" alt="Permission-first engineering loop: inspect, scope, approval, implement, verify, report" />
+</p>
+
 Use a small, reversible prompt to check that the configuration is loaded:
 
 ```text
@@ -215,6 +198,7 @@ guarantee runtime permissions.
 |---|---|
 | `core/rules/common.md` | Host-neutral engineering policy and shared behavior. |
 | `adapters/` | Thin Claude, Antigravity, and Codex integration layers. |
+| `docs/assets/` | Repository-local terminal, architecture, and workflow visuals. |
 | `agents/` | 10 canonical specialist role definitions. |
 | `skills/` | 28 canonical Agent Skills for recurring engineering tasks. |
 | `workflows/` | 10 canonical workflows and the Antigravity compatibility source. |
@@ -325,6 +309,7 @@ every push to `main` and every pull request.
 - [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
 - [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
 - [Core and adapter design](core/README.md) — the source-of-truth model.
+- [Launch announcement pack](docs/ANNOUNCEMENT.md) — reviewable copy for GitHub and social channels.
 - [Security policy](SECURITY.md) — reporting and security boundaries.
 - [Changelog](CHANGELOG.md) — release history.
 

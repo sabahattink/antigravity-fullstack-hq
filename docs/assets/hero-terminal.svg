@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+  <title id="title">Full Stack HQ terminal preview</title>
+  <desc id="desc">An illustrative terminal session showing the Codex adapter being validated and prepared with global rules, ten custom agents, and canonical skills.</desc>
+  <rect width="1200" height="390" rx="18" fill="#0b0f14"/>
+  <rect x="1" y="1" width="1198" height="388" rx="17" fill="none" stroke="#273142" stroke-width="2"/>
+  <rect width="1200" height="48" rx="18" fill="#151d29"/>
+  <rect y="30" width="1200" height="18" fill="#151d29"/>
+  <circle cx="28" cy="24" r="6" fill="#f7768e"/>
+  <circle cx="50" cy="24" r="6" fill="#e0af68"/>
+  <circle cx="72" cy="24" r="6" fill="#9ece6a"/>
+  <text x="600" y="29" text-anchor="middle" fill="#91a0b5" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14">full-stack-hq / main</text>
+  <text x="62" y="86" fill="#91a0b5" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14">illustrative install flow</text>
+  <rect x="54" y="104" width="1092" height="236" rx="12" fill="#0f1622"/>
+  <rect x="54" y="104" width="5" height="236" rx="2" fill="#7c3aed"/>
+  <text x="82" y="140" fill="#bb9af7" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="17">$</text>
+  <text x="103" y="140" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="17">bash install.sh --only-codex --backup</text>
+  <text x="82" y="175" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="175" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">source validation................................ passed</text>
+  <text x="82" y="203" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="203" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">adapter.......................................... codex</text>
+  <text x="82" y="231" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="231" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">global rules.......................... ~/.codex/AGENTS.md</text>
+  <text x="82" y="259" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="259" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">agents............................ 10 TOML custom agents</text>
+  <text x="82" y="287" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="287" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">skills........................ 28 canonical + 10 bridges</text>
+  <text x="82" y="315" fill="#70d6a4" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">[full-stack-hq]</text>
+  <text x="220" y="315" fill="#c0cad8" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="15">ready................................ new Codex session</text>
+</svg>
