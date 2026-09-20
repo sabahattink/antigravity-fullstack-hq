@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-20
+
 ### Added — Launch and feedback kit
 - PNG derivatives of the repository visuals for Dev.to and external image proxies
 - `docs/LAUNCH_PLAYBOOK.md` with channel-specific copy, rollout sequencing, and measurement guidance

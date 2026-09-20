@@ -7,7 +7,7 @@
 ## Canonical links
 
 - Repository: https://github.com/sabahattink/antigravity-fullstack-hq
-- Latest functional release: https://github.com/sabahattink/antigravity-fullstack-hq/releases/tag/v1.1.0
+- Latest functional release: https://github.com/sabahattink/antigravity-fullstack-hq/releases/tag/v1.2.0
 - GitHub announcement: https://github.com/sabahattink/antigravity-fullstack-hq/discussions/5
 - README: https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/README.md
 - Long-form article: [`docs/devto-article.md`](devto-article.md)

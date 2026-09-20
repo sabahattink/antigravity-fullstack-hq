@@ -48,7 +48,7 @@ not the headline.
 | Asset | Use | Link |
 |---|---|---|
 | Repository | Primary conversion target | <https://github.com/sabahattink/antigravity-fullstack-hq> |
-| Release | Stable starting point | <https://github.com/sabahattink/antigravity-fullstack-hq/releases/tag/v1.1.0> |
+| Release | Stable starting point | <https://github.com/sabahattink/antigravity-fullstack-hq/releases/tag/v1.2.0> |
 | GitHub announcement | Long-lived discussion | <https://github.com/sabahattink/antigravity-fullstack-hq/discussions/5> |
 | Technical article | Durable explanation | `docs/devto-article.md` |
 | Terminal visual | Hero and cover | `docs/assets/hero-terminal.png` |
