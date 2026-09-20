@@ -136,6 +136,33 @@ Run source and adapter validation before installation:
     bash scripts/validate.sh
     bash install.sh --check
 
+### Isolated installation smoke test
+
+Run the platform-native smoke test before proposing a release. It installs all
+three adapters into a disposable temporary home, checks generated file counts,
+and removes the temporary home when it finishes:
+
+### Windows
+
+    .\scripts\smoke-test.ps1
+
+### macOS / Linux
+
+    bash scripts/smoke-test.sh
+
+For a read-only diagnosis of an existing machine or isolated target, use the
+doctor. It reports missing host files as warnings and never changes the target:
+
+### Windows
+
+    .\scripts\doctor.ps1
+    .\scripts\doctor.ps1 -OnlyCodex -TargetRoot .\tmp\host-home
+
+### macOS / Linux
+
+    bash scripts/doctor.sh
+    bash scripts/doctor.sh --only-codex --target-root ./tmp/host-home
+
 The validator checks:
 
 - YAML frontmatter and name/path consistency
@@ -144,6 +171,10 @@ The validator checks:
 - Codex TOML agent generation
 - Workflow-to-skill conversion counts
 - Portable plugin manifest metadata
+
+The doctor adds environment-level checks for host commands, installed paths,
+`CODEX_HOME`, and `AGENTS.override.md` precedence. The smoke test verifies the
+real installer output in an isolated temporary home.
 
 After installation, restart the host application and start a new conversation.
 Use a small reversible prompt:

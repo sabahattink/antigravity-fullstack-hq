@@ -35,3 +35,13 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: bash scripts/validate.sh
+
+      - name: Run Windows installation smoke test
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\scripts\smoke-test.ps1
+
+      - name: Run Bash installation smoke test
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash scripts/smoke-test.sh

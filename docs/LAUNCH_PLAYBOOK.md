@@ -255,6 +255,8 @@ Before calling the launch ready:
 
 - [ ] `git diff --check` passes.
 - [ ] `scripts/validate.ps1` and `scripts/validate.sh` pass.
+- [ ] The read-only doctor reports source readiness on the maintainer machine.
+- [ ] Windows and Ubuntu isolated installer smoke tests pass.
 - [ ] GitHub README SVGs render.
 - [ ] Dev.to uses the PNG URLs, not the SVG URLs.
 - [ ] The repository, release, and discussion links resolve.

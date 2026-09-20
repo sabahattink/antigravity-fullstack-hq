@@ -27,7 +27,9 @@ Bash:       bash scripts/validate.sh
 ```
 
 The validator must pass on Windows and Linux. Installers should be tested with
-their dry-run option and must not push, create branches, or deploy.
+their dry-run option and with the isolated smoke tests. The doctor is
+read-only; it may report missing host installations as warnings. These checks
+must not push, create branches, or deploy.
 
 ## Change discipline
 

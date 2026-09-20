@@ -38,7 +38,7 @@ validate_document() {
     [[ -n "$body_text" ]] || fail "Empty $kind body: $path"
 }
 
-for required in AGENTS.md plugin.json core/rules/common.md adapters/claude/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh; do
+for required in AGENTS.md plugin.json core/rules/common.md adapters/claude/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
     [[ -f "$REPO_ROOT/$required" ]] || fail "Missing required file: $required"
 done
 

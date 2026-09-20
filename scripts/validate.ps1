@@ -47,7 +47,11 @@ foreach ($Required in @(
     "adapters\antigravity\rules.md",
     "adapters\codex\rules.md",
     "scripts\build-adapters.ps1",
-    "scripts\build-adapters.sh"
+    "scripts\build-adapters.sh",
+    "scripts\doctor.ps1",
+    "scripts\doctor.sh",
+    "scripts\smoke-test.ps1",
+    "scripts\smoke-test.sh"
 )) {
     if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot $Required))) {
         Add-Failure "Missing required file: $Required"

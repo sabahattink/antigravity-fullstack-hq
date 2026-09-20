@@ -15,10 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dev.to cover metadata and PNG-based article visuals
 - Portable `plugin.json` package boundary for the existing canonical skills
 - Portable package guide and current Codex instruction-discovery notes
+- Read-only `scripts/doctor.*` diagnostics for host commands, target paths, and
+  Codex override precedence
+- Isolated all-host installer smoke tests in `scripts/smoke-test.*`
 
 ### Changed — Repository experience
 - Added manual workflow dispatch and concurrency control to validation CI
 - Added direct documentation links for OpenAI Agent Plugins and the Agent Skills specification
+- CI now runs the installer smoke test on Windows and Ubuntu after validation
 
 ## [1.1.0] - 2026-09-16
 

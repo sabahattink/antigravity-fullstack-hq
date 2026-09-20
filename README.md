@@ -185,6 +185,26 @@ Existing global instruction files are confirmed interactively. Existing agent
 and skill files are kept unless `Force` is selected. Restart the host
 application and start a new conversation after installation.
 
+### Diagnose before installing
+
+The read-only doctor checks the repository, adapter validator, host commands,
+target paths, and Codex override precedence. Missing host files are reported as
+warnings so it is useful both before a first install and after an upgrade.
+
+```console
+# Windows PowerShell
+PS> .\scripts\doctor.ps1
+PS> .\scripts\doctor.ps1 -OnlyCodex -TargetRoot .\tmp\host-home
+```
+
+```console
+# macOS / Linux
+$ bash scripts/doctor.sh
+$ bash scripts/doctor.sh --only-codex --target-root ./tmp/host-home
+```
+
+Use `-Strict` / `--strict` when warnings should make the diagnostic fail.
+
 ## First run
 
 <p align="center">
@@ -219,6 +239,8 @@ guarantee runtime permissions.
 | `workflows/` | 10 canonical workflows and the Antigravity compatibility source. |
 | `scripts/build-adapters.*` | Render host files and workflow skill bridges. |
 | `scripts/validate.*` | PowerShell and Bash source/adapter validators. |
+| `scripts/doctor.*` | Read-only environment and installation diagnostics. |
+| `scripts/smoke-test.*` | Isolated all-host installer smoke tests. |
 | `install.ps1` / `install.sh` | Safe, selective, cross-platform installers. |
 
 ### Specialist agents
@@ -305,6 +327,12 @@ PS> .\install.ps1 -Check
 # macOS / Linux
 $ bash scripts/validate.sh
 $ bash install.sh --check
+$ bash scripts/smoke-test.sh
+```
+
+```powershell
+# Windows PowerShell
+PS> .\scripts\smoke-test.ps1
 ```
 
 The validators check:
@@ -316,6 +344,10 @@ The validators check:
 - Workflow-to-skill conversion counts.
 - Antigravity rule-size limits and workflow/skill name collisions.
 - Cross-platform renderer parity.
+
+The smoke tests then install all three adapters into a disposable temporary
+home and verify the generated rules, agents, skills, and workflows without
+touching the real user configuration.
 
 The repository also runs least-privilege validation on Windows and Ubuntu for
 every push to `main` and every pull request.
