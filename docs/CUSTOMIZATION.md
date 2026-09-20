@@ -12,6 +12,7 @@ host.
 - Specialist agents: agents/*.md
 - Reusable skills: skills/<name>/SKILL.md
 - Workflows: workflows/*.md
+- Portable package boundary: plugin.json plus the existing skills/ tree
 
 The files under claude/CLAUDE.md and gemini/GEMINI.md are compatibility
 snapshots. They are generated outputs, not the preferred place for permanent
@@ -103,6 +104,12 @@ Host-native locations after installation:
 For project-specific behavior, prefer a repository-local .agents/skills/
 directory so Codex and modern Antigravity can discover the same skill.
 
+The repository root is also a portable plugin package: `plugin.json` and the
+canonical `skills/` tree are intentionally kept together. Do not copy skills
+into a second plugin directory. The portable package exposes reusable skills;
+use the installers when you need global rules, native agents, workflow files,
+or generated Codex agents. See [PLUGIN.md](PLUGIN.md) for the package boundary.
+
 ## Add or update a workflow
 
 Edit workflows/my-workflow.md:
@@ -160,9 +167,13 @@ portable; use the Claude adapter for host-only notes.
 - Project custom agents: .codex/agents/
 - Project skills: .agents/skills/
 
-Codex loads layered AGENTS.md guidance from the Codex home and repository
-directories. A repository root AGENTS.md can document contribution and
-verification rules without being installed as a global file.
+Codex loads layered instruction files from the Codex home and repository
+directories, walking from the Git root to the current working directory. Each
+directory contributes one `AGENTS.md` or `AGENTS.override.md`; the override
+replaces the regular file in that directory. The default combined project
+instruction budget is 32 KiB, so keep root guidance concise and move narrow
+rules closer to the files they govern. A repository root AGENTS.md can document
+contribution and verification rules without being installed as a global file.
 
 If AGENTS.override.md exists in the active Codex home, it takes precedence over
 the global AGENTS.md. The installer does not replace it; keep overrides small

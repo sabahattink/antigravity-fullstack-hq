@@ -27,6 +27,17 @@ project dependencies.
 
 By default, all supported host integrations are prepared.
 
+## Portable package
+
+For a plugin-aware host, the repository root is also a portable package:
+`plugin.json` is paired with the existing canonical `skills/` directory. This
+is the smallest way to consume the reusable procedures. It does not install
+global rules, specialist agents, Antigravity workflow files, or generated
+Codex TOML agents; use the standard installer above when you need the complete
+host integration.
+
+See [PLUGIN.md](PLUGIN.md) for the package boundary and release checklist.
+
 ## Selective installation
 
 ### Windows
@@ -86,6 +97,11 @@ If the active Codex home already contains AGENTS.override.md, Codex prioritizes
 that file over AGENTS.md. The installer warns but never overwrites the
 override; merge the shared policy there only after reviewing the difference.
 
+Codex also layers repository instruction files from the Git root to the current
+working directory. Each directory contributes one `AGENTS.md` or
+`AGENTS.override.md`, and the default combined project guidance budget is
+32 KiB. Keep broad rules at the root and narrow rules near the code they govern.
+
 ## Antigravity migration bridge
 
 Older Full Stack HQ releases used ~/.gemini/antigravity/ for agents, skills,
@@ -127,6 +143,7 @@ The validator checks:
 - Canonical content for accidental host-specific leakage
 - Codex TOML agent generation
 - Workflow-to-skill conversion counts
+- Portable plugin manifest metadata
 
 After installation, restart the host application and start a new conversation.
 Use a small reversible prompt:

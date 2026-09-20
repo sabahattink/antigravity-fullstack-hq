@@ -41,6 +41,7 @@ function Validate-Directory([string]$Directory, [string]$Pattern, [string]$Kind)
 
 foreach ($Required in @(
     "AGENTS.md",
+    "plugin.json",
     "core\rules\common.md",
     "adapters\claude\rules.md",
     "adapters\antigravity\rules.md",
@@ -51,6 +52,21 @@ foreach ($Required in @(
     if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot $Required))) {
         Add-Failure "Missing required file: $Required"
     }
+}
+
+try {
+    $Plugin = Get-Content -LiteralPath (Join-Path $RepoRoot "plugin.json") -Raw | ConvertFrom-Json
+    foreach ($Property in @("`$schema", "name", "version", "description")) {
+        if (-not ($Plugin.PSObject.Properties.Name -contains $Property) -or
+            [string]::IsNullOrWhiteSpace([string]$Plugin.$Property)) {
+            Add-Failure "Plugin manifest is missing '$Property'"
+        }
+    }
+    if ([string]$Plugin.name -ne "full-stack-hq") { Add-Failure "Plugin manifest name must be full-stack-hq" }
+    if ([string]$Plugin.version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') { Add-Failure "Plugin manifest version is not semver" }
+}
+catch {
+    Add-Failure "Invalid plugin manifest: $($_.Exception.Message)"
 }
 
 $Agents = Validate-Directory (Join-Path $RepoRoot "agents") "*.md" "agent"

@@ -29,3 +29,15 @@ adapter output:
 
 The generated files are install artifacts. Edit the core or adapter source,
 then render again; do not hand-edit generated snapshots.
+
+## Portable distribution seam
+
+The repository root also contains `plugin.json` beside the canonical `skills/`
+directory. Together they form the portable plugin boundary for hosts that
+understand the OpenAI plugin layout. This is a distribution seam, not another
+source of truth: skill bodies remain in `skills/`, while global rules,
+specialist agents, legacy workflows, and generated host files remain the
+responsibility of the installers and adapters.
+
+See [the portable package guide](../docs/PLUGIN.md) and the official
+[OpenAI plugin documentation](https://learn.chatgpt.com/docs/build-plugins).

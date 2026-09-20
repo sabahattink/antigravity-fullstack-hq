@@ -24,6 +24,7 @@ improve the shared core once and keep each adapter thin.
 | Specialist role | agents/<name>.md |
 | Reusable domain guidance | skills/<name>/SKILL.md |
 | Reusable procedure | workflows/<name>.md |
+| Portable plugin metadata | plugin.json and docs/PLUGIN.md |
 | Installer behavior | install.ps1 and install.sh |
 | Adapter generation | scripts/build-adapters.ps1 and .sh |
 | Validation | scripts/validate.ps1 and .sh |
@@ -54,6 +55,9 @@ place long references, assets, or helper scripts beside it.
 
 A skill should contain real, reusable guidance rather than a generic persona.
 Do not put credentials, private data, or unverifiable claims in examples.
+
+The root `plugin.json` packages this same `skills/` tree for plugin-aware
+hosts. Keep it as a distribution manifest, not as a second skill source.
 
 ## Adding a workflow
 

@@ -1,12 +1,17 @@
 name: Validate configuration
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, dev]
   pull_request:
 
 permissions:
   contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:

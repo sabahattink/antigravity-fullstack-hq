@@ -38,9 +38,17 @@ validate_document() {
     [[ -n "$body_text" ]] || fail "Empty $kind body: $path"
 }
 
-for required in AGENTS.md core/rules/common.md adapters/claude/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh; do
+for required in AGENTS.md plugin.json core/rules/common.md adapters/claude/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh; do
     [[ -f "$REPO_ROOT/$required" ]] || fail "Missing required file: $required"
 done
+
+plugin_json="$REPO_ROOT/plugin.json"
+if [[ -f "$plugin_json" ]]; then
+    grep -Eq '"\$schema"[[:space:]]*:[[:space:]]*"https://agent-plugins\.org/schemas/1\.0\.0/plugin\.schema\.json"' "$plugin_json" || fail "Plugin manifest has an invalid schema URL"
+    grep -Eq '"name"[[:space:]]*:[[:space:]]*"full-stack-hq"' "$plugin_json" || fail "Plugin manifest name must be full-stack-hq"
+    grep -Eq '"version"[[:space:]]*:[[:space:]]*"[0-9]+\.[0-9]+\.[0-9]+"' "$plugin_json" || fail "Plugin manifest version is not semver"
+    grep -Eq '"description"[[:space:]]*:[[:space:]]*"[^"].*"' "$plugin_json" || fail "Plugin manifest description is missing"
+fi
 
 while IFS= read -r -d '' path; do
     validate_document "$path" agent

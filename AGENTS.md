@@ -10,6 +10,7 @@ runtime, package manager, or production service to deploy.
 - `agents/` contains canonical Markdown agent bodies.
 - `skills/` contains canonical Agent Skills.
 - `workflows/` contains canonical workflow bodies and the Antigravity legacy bridge.
+- `plugin.json` packages the existing canonical skills for plugin-aware hosts.
 - `scripts/build-adapters.*` renders Codex TOML agents and workflow-to-skill adapters.
 
 Do not create separate copies of shared agent or skill instructions for each

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added — Launch and feedback kit
+- PNG derivatives of the repository visuals for Dev.to and external image proxies
+- `docs/LAUNCH_PLAYBOOK.md` with channel-specific copy, rollout sequencing, and measurement guidance
+- `docs/DEMO_SCRIPT.md` for a real 45-second validation and dry-run walkthrough
+- Installation-feedback issue template for host-specific reports
+- Dev.to cover metadata and PNG-based article visuals
+- Portable `plugin.json` package boundary for the existing canonical skills
+- Portable package guide and current Codex instruction-discovery notes
+
+### Changed — Repository experience
+- Added manual workflow dispatch and concurrency control to validation CI
+- Added direct documentation links for OpenAI Agent Plugins and the Agent Skills specification
+
 ## [1.1.0] - 2026-09-16
 
 ### Added — Tool-agnostic core and Codex support

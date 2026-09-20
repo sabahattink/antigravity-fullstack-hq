@@ -1,15 +1,27 @@
 ---
-title: I built a permission-first, tool-agnostic AI engineering stack (free, MIT)
-tags: claudecode, codex, antigravity, ai, devtools, productivity
+title: Full Stack HQ: A Permission-First AI Engineering Stack for Claude Code, Antigravity, and Codex
+tags: claudecode, codex, antigravity, devtools
+cover_image: https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/docs/assets/hero-terminal.png
 ---
 
-I've been using AI coding agents daily for months. And I kept hitting the same wall:
+![Full Stack HQ terminal preview](https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/docs/assets/hero-terminal.png)
 
-The agent would just **start doing things**. No plan. No approval. Just... acting.
+AI coding agents can move quickly. The engineering challenge is keeping intent,
+approval, and verification visible while they do.
 
-It deleted files I didn't want deleted. It refactored things I didn't ask it to refactor. It made "helpful" assumptions that broke my architecture.
+That is the problem Full Stack HQ is designed to address: a shared,
+permission-first engineering workflow that can travel across multiple AI
+coding hosts.
 
-So I built **Full Stack HQ** — a configuration kit that encodes a permission-first workflow across Claude Code, Google Antigravity IDE, and OpenAI Codex. Here's what I learned.
+The project supports Claude Code, Google Antigravity IDE, and OpenAI Codex from
+one tool-agnostic source of truth.
+
+For plugin-aware OpenAI hosts, the root `plugin.json` and the existing
+canonical `skills/` directory also form a portable package boundary. The host
+installers remain available when you need global rules, native agents, and
+generated adapter files.
+
+![Full Stack HQ source-to-host architecture](https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/docs/assets/architecture.png)
 
 ---
 
@@ -56,6 +68,8 @@ DO IT
 
 The rules define these as the approval phrases. They are prompt/configuration guidance, not a runtime permission boundary, so the host agent still determines the observed behavior.
 
+![Full Stack HQ permission-first workflow loop](https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/docs/assets/workflow-loop.png)
+
 ---
 
 ## What's inside Full Stack HQ
@@ -65,6 +79,7 @@ The rules define these as the approval phrases. They are prompt/configuration gu
 | Shared rule core | 1 | Host-neutral engineering policy |
 | Host adapters | 3 | Claude Code, Antigravity, and Codex |
 | `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` | 3 | Generated host instruction files |
+| `plugin.json` | 1 | Portable package manifest for canonical skills |
 | Agents | 10 | Specialist AI personas |
 | Skills | 28 | Domain-specific knowledge modules |
 | Workflows | 10 | Legacy workflows plus skill bridges |
@@ -112,11 +127,11 @@ Deep knowledge modules for the tools you actually use:
 /test       → generate or fix tests
 /orchestrate → coordinate multiple agents
 /ui-ux-pro-max → structured UI/UX review
+```
 
 The canonical workflow bodies remain in `workflows/`. The installer keeps the
 Antigravity legacy form and also renders each one as a skill for Claude Code,
 Codex, and modern Antigravity.
-```
 
 ---
 

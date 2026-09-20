@@ -11,7 +11,8 @@ Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
   <a href="#quick-start">Quick start</a> ·
   <a href="#architecture">Architecture</a> ·
   <a href="#whats-inside">What's inside</a> ·
-  <a href="docs/SETUP.md">Setup guide</a>
+  <a href="docs/SETUP.md">Setup guide</a> ·
+  <a href="docs/LAUNCH_PLAYBOOK.md">Launch playbook</a>
 </p>
 
 <p>
@@ -100,11 +101,24 @@ instructions, Agent Skills for reusable procedures, and TOML custom agents with
 
 - [Codex AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 - [Codex Agent Skills](https://learn.chatgpt.com/docs/build-skills)
+- [OpenAI Agent Plugins](https://learn.chatgpt.com/docs/build-plugins)
 - [Codex custom agents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+- [Agent Skills specification](https://agentskills.io/)
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
 - [Antigravity rules and workflows](https://antigravity.google/docs/rules-workflows)
 
 </details>
+
+## Portable package
+
+The repository root also contains a portable `plugin.json` manifest beside the
+canonical `skills/` directory. Plugin-aware OpenAI hosts can consume that
+package boundary without a second copy of the shared guidance. The regular
+installers remain the complete path when you also want global rules, native
+agents, Antigravity workflows, Codex TOML agents, backups, or dry-runs.
+
+Read [the portable package guide](docs/PLUGIN.md) for the boundary, release
+rules, and local validation checklist.
 
 ## Quick start
 
@@ -198,6 +212,7 @@ guarantee runtime permissions.
 |---|---|
 | `core/rules/common.md` | Host-neutral engineering policy and shared behavior. |
 | `adapters/` | Thin Claude, Antigravity, and Codex integration layers. |
+| `plugin.json` | Portable plugin manifest for the existing canonical skills. |
 | `docs/assets/` | Repository-local terminal, architecture, and workflow visuals. |
 | `agents/` | 10 canonical specialist role definitions. |
 | `skills/` | 28 canonical Agent Skills for recurring engineering tasks. |
@@ -269,6 +284,8 @@ invocation.
   otherwise the active `~/.codex/` directory.
 - If `~/.codex/AGENTS.override.md` exists, Codex prioritizes it. The installer
   warns about the override and never overwrites it.
+- The root `plugin.json` packages the existing `skills/` tree for
+  plugin-aware hosts; it does not create a parallel source tree.
 
 There is intentionally no separate Codex workflow directory. The canonical
 workflow bodies are converted to Agent Skills because skills are the current
@@ -309,7 +326,10 @@ every push to `main` and every pull request.
 - [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
 - [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
 - [Core and adapter design](core/README.md) — the source-of-truth model.
+- [Portable plugin package](docs/PLUGIN.md) — package boundary and release rules.
 - [Launch announcement pack](docs/ANNOUNCEMENT.md) — reviewable copy for GitHub and social channels.
+- [Launch playbook](docs/LAUNCH_PLAYBOOK.md) — channel sequence, demo brief, and measurement plan.
+- [Installation feedback](.github/ISSUE_TEMPLATE/installation_feedback.md) — structured host-specific reports.
 - [Security policy](SECURITY.md) — reporting and security boundaries.
 - [Changelog](CHANGELOG.md) — release history.
 
