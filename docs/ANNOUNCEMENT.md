@@ -1,8 +1,8 @@
 # Launch announcement pack
 
 > Status: the GitHub Discussion, X launch post, and Dev.to article are
-> published. The remaining channel copy is prepared for review; the Dev.to
-> media correction is pending the PNG asset push and article update.
+> published. The v1.2.0 release is live, and the Dev.to cover/body visuals now
+> render from PNG assets. The remaining channel copy is prepared for review.
 
 ## Canonical links
 
@@ -10,6 +10,7 @@
 - Latest functional release: https://github.com/sabahattink/antigravity-fullstack-hq/releases/tag/v1.2.0
 - GitHub announcement: https://github.com/sabahattink/antigravity-fullstack-hq/discussions/5
 - README: https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/README.md
+- First-run recipes: [`docs/FIRST_RUN.md`](FIRST_RUN.md)
 - Long-form article: [`docs/devto-article.md`](devto-article.md)
 - Launch playbook: [`docs/LAUNCH_PLAYBOOK.md`](LAUNCH_PLAYBOOK.md)
 

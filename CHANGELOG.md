@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Read-only `scripts/doctor.*` diagnostics for host commands, target paths, and
   Codex override precedence
 - Isolated all-host installer smoke tests in `scripts/smoke-test.*`
+- First-run recipes covering dry-runs, isolated tests, read-only diagnostics,
+  and installation feedback
+
+### Improved — First-run discovery
+- Added a safe 60-second README preview that does not touch the real home
+  directory
+- Added direct README links to the installation feedback form and community
+  discussions
 
 ### Changed — Repository experience
 - Added manual workflow dispatch and concurrency control to validation CI

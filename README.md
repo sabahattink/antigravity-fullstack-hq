@@ -40,6 +40,40 @@ network access, and filesystem behavior.
   <img src="docs/assets/hero-terminal.svg" alt="Illustrative Full Stack HQ terminal flow showing Codex validation, global rules, ten custom agents, and reusable skills" />
 </p>
 
+## Start here
+
+### Try it safely in 60 seconds
+
+Preview the Codex adapter without changing your real host configuration:
+
+```powershell
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+Set-Location antigravity-fullstack-hq
+.\install.ps1 -OnlyCodex -DryRun -TargetRoot .\.demo-home
+```
+
+macOS/Linux:
+
+```bash
+git clone https://github.com/sabahattink/antigravity-fullstack-hq.git
+cd antigravity-fullstack-hq
+bash install.sh --only-codex --dry-run --target-root ./.demo-home
+```
+
+This preview validates the source and shows the host files that would be
+generated while keeping the real home directory untouched. When the result
+looks right, continue with the [full setup guide](docs/SETUP.md), or test a
+different host with `--only-claude` / `--only-antigravity`.
+
+For the three reproducible first-run recipes, see
+[First-run recipes](docs/FIRST_RUN.md).
+
+<p>
+  <a href="https://github.com/sabahattink/antigravity-fullstack-hq/issues/new?template=installation_feedback.md"><strong>Report an installation result</strong></a> ·
+  <a href="https://github.com/sabahattink/antigravity-fullstack-hq/discussions"><strong>Join the discussion</strong></a> ·
+  <a href="docs/DEMO_SCRIPT.md">Record the 45-second demo</a>
+</p>
+
 ## The experience
 
 The repository is designed to feel like a small engineering control plane:
@@ -226,6 +260,22 @@ inspect → scope → approval → implement → verify → report
 This is instruction-level guidance. It does not intercept shell commands or
 guarantee runtime permissions.
 
+## Help us test the host adapters
+
+The most useful contribution is a real installation result, including a
+successful dry-run or a small host-specific difference. Open the
+[installation feedback form](https://github.com/sabahattink/antigravity-fullstack-hq/issues/new?template=installation_feedback.md)
+with:
+
+- the host and operating system;
+- the command and Full Stack HQ version or commit;
+- the expected and actual generated paths;
+- a redacted log excerpt or screenshot, with tokens and private paths removed.
+
+If you are comparing more than one AI coding host, continue the conversation
+in [GitHub Discussions](https://github.com/sabahattink/antigravity-fullstack-hq/discussions)
+so repeated questions can become documentation improvements.
+
 ## What's inside
 
 | Directory / file | Role |
@@ -355,6 +405,7 @@ every push to `main` and every pull request.
 ## Documentation
 
 - [Setup guide](docs/SETUP.md) — installation, upgrades, migration, and troubleshooting.
+- [First-run recipes](docs/FIRST_RUN.md) — safe previews, isolated tests, and feedback.
 - [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
 - [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
 - [Core and adapter design](core/README.md) — the source-of-truth model.
