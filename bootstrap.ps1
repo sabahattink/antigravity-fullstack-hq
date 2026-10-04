@@ -5,7 +5,7 @@
 #
 # The script fetches a temporary shallow checkout, runs install.ps1 with the
 # same parameters, and removes the checkout afterwards. Pin a release or commit
-# with -Ref v1.2.0 or $env:FULL_STACK_HQ_REF.
+# with -Ref v1.3.0 or $env:FULL_STACK_HQ_REF.
 
 [CmdletBinding()]
 param(

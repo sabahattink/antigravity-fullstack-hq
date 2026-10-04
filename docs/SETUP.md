@@ -37,8 +37,8 @@ installer with the options you pass, and delete the checkout. Preview first:
     curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/bootstrap.sh | bash -s -- --dry-run
 
 Every installer option is accepted, for example `-OnlyCodex -Backup` or
-`--only-codex --backup`. Pin a tag or commit with `-Ref v1.2.0` or
-`FULL_STACK_HQ_REF=v1.2.0`. When the Bash bootstrap is piped and there is no
+`--only-codex --backup`. Pin a tag or commit with `-Ref v1.3.0` or
+`FULL_STACK_HQ_REF=v1.3.0`. When the Bash bootstrap is piped and there is no
 terminal to ask, it keeps existing global instruction files.
 
 ## Standard installation
