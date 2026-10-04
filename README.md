@@ -78,8 +78,8 @@ curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-h
 Drop `--dry-run` / `-DryRun` to install, or add any installer option such as
 `--only-codex` / `-OnlyCodex` and `--backup` / `-Backup`. The bootstrap makes a
 temporary shallow checkout, runs the regular installer with your options, and
-deletes the checkout. Pin a release with `FULL_STACK_HQ_REF=v1.2.0` (Bash) or
-`-Ref v1.2.0` (PowerShell). Read [`bootstrap.sh`](bootstrap.sh) or
+deletes the checkout. Pin a release with `FULL_STACK_HQ_REF=v1.3.0` (Bash) or
+`-Ref v1.3.0` (PowerShell). Read [`bootstrap.sh`](bootstrap.sh) or
 [`bootstrap.ps1`](bootstrap.ps1) before piping either into a shell.
 
 ### Try it from a checkout

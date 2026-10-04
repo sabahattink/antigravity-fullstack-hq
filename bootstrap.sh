@@ -6,7 +6,7 @@
 #
 # The script fetches a temporary shallow checkout, runs install.sh with the
 # same arguments, and removes the checkout afterwards. Every install.sh option
-# is accepted. Pin a release or commit with FULL_STACK_HQ_REF=v1.2.0.
+# is accepted. Pin a release or commit with FULL_STACK_HQ_REF=v1.3.0.
 
 # Everything runs inside main so a truncated download never executes partially.
 main() {

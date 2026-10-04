@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-04
+
 ### Added — One-command installs
 - Claude Code plugin marketplace (`.claude-plugin/`): install with
   `/plugin marketplace add sabahattink/antigravity-fullstack-hq` and
