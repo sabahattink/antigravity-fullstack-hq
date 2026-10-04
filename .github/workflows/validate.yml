@@ -45,3 +45,22 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: bash scripts/smoke-test.sh
+
+  claude-plugin:
+    name: Claude Code plugin manifests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate marketplace and plugin manifests
+        shell: bash
+        run: |
+          npx --yes @anthropic-ai/claude-code@2.1.289 plugin validate .claude-plugin/marketplace.json --strict
+          npx --yes @anthropic-ai/claude-code@2.1.289 plugin validate .claude-plugin/plugin.json --strict

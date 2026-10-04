@@ -38,7 +38,7 @@ validate_document() {
     [[ -n "$body_text" ]] || fail "Empty $kind body: $path"
 }
 
-for required in AGENTS.md plugin.json core/rules/common.md adapters/claude/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
+for required in AGENTS.md plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json bootstrap.sh bootstrap.ps1 core/rules/common.md adapters/claude/rules.md adapters/claude/plugin.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
     [[ -f "$REPO_ROOT/$required" ]] || fail "Missing required file: $required"
 done
 
@@ -48,6 +48,32 @@ if [[ -f "$plugin_json" ]]; then
     grep -Eq '"name"[[:space:]]*:[[:space:]]*"full-stack-hq"' "$plugin_json" || fail "Plugin manifest name must be full-stack-hq"
     grep -Eq '"version"[[:space:]]*:[[:space:]]*"[0-9]+\.[0-9]+\.[0-9]+"' "$plugin_json" || fail "Plugin manifest version is not semver"
     grep -Eq '"description"[[:space:]]*:[[:space:]]*"[^"].*"' "$plugin_json" || fail "Plugin manifest description is missing"
+fi
+
+json_string() {
+    sed -n -E "s/^[[:space:]]*\"$1\"[[:space:]]*:[[:space:]]*\"([^\"]*)\".*/\\1/p" "$2" | head -n 1
+}
+
+claude_plugin="$REPO_ROOT/.claude-plugin/plugin.json"
+claude_marketplace="$REPO_ROOT/.claude-plugin/marketplace.json"
+claude_hooks="$REPO_ROOT/hooks/hooks.json"
+if [[ -f "$claude_plugin" && -f "$plugin_json" ]]; then
+    [[ "$(json_string name "$claude_plugin")" == "full-stack-hq" ]] || fail "Claude plugin name must be full-stack-hq"
+    [[ "$(json_string version "$claude_plugin")" == "$(json_string version "$plugin_json")" ]] || fail "Claude plugin version must match plugin.json"
+    [[ "$(json_string commands "$claude_plugin")" == "./workflows/" ]] || fail "Claude plugin commands must point to ./workflows/"
+fi
+if [[ -f "$claude_marketplace" ]]; then
+    grep -Eq '"name"[[:space:]]*:[[:space:]]*"full-stack-hq"' "$claude_marketplace" || fail "Claude marketplace must list full-stack-hq"
+    grep -Eq '"source"[[:space:]]*:[[:space:]]*"\./"' "$claude_marketplace" || fail "Claude marketplace plugin source must be ./"
+fi
+if [[ -f "$claude_hooks" ]]; then
+    for hook_source in core/rules/common.md adapters/claude/plugin.md; do
+        grep -q "\${CLAUDE_PLUGIN_ROOT}/$hook_source" "$claude_hooks" || fail "Claude session hook must load $hook_source"
+    done
+    # Claude Code caps context injected by a hook at 10,000 characters. Counting
+    # bytes is a conservative stand-in that does not depend on the locale.
+    hook_bytes="$(cat "$REPO_ROOT/core/rules/common.md" "$REPO_ROOT/adapters/claude/plugin.md" | wc -c | tr -d ' ')"
+    [[ "$hook_bytes" -le 10000 ]] || fail "Claude plugin session rules exceed 10000 bytes: $hook_bytes"
 fi
 
 while IFS= read -r -d '' path; do

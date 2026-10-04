@@ -4,7 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 TARGET_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-smoke.XXXXXX")"
-trap 'rm -rf -- "$TARGET_ROOT"' EXIT
+BOOTSTRAP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-bootstrap.XXXXXX")"
+trap 'rm -rf -- "$TARGET_ROOT" "$BOOTSTRAP_ROOT"' EXIT
 
 assert_path() {
     local path="$1" label="$2"
@@ -45,6 +46,13 @@ assert_count "$TARGET_ROOT/.claude/agents" '*.md' "$expected_agents" "Claude age
 assert_count "$TARGET_ROOT/.claude/skills" 'SKILL.md' "$expected_skill_adapters" "Claude skills"
 assert_count "$TARGET_ROOT/.codex/agents" '*.toml' "$expected_agents" "Codex custom agents"
 assert_count "$TARGET_ROOT/.agents/skills" 'SKILL.md' "$expected_skill_adapters" "Codex skills"
+
+echo
+echo "  Bootstrap from the committed HEAD (piped, as with curl | bash)"
+FULL_STACK_HQ_REPO_URL="file://$REPO_ROOT" FULL_STACK_HQ_REF="$(git -C "$REPO_ROOT" rev-parse HEAD)" \
+    bash -s -- --only-codex --force --target-root "$BOOTSTRAP_ROOT" < "$REPO_ROOT/bootstrap.sh"
+assert_path "$BOOTSTRAP_ROOT/.codex/AGENTS.md" "Bootstrap Codex global rules"
+assert_count "$BOOTSTRAP_ROOT/.codex/agents" '*.toml' "$expected_agents" "Bootstrap Codex custom agents"
 
 echo
 echo "  Smoke test passed."

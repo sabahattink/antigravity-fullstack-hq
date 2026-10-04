@@ -1,0 +1,18 @@
+{
+  "name": "full-stack-hq",
+  "owner": {
+    "name": "Sabahattin Kalkan",
+    "url": "https://github.com/sabahattink"
+  },
+  "metadata": {
+    "description": "Full Stack HQ: one permission-first engineering core for Claude Code, Google Antigravity IDE, and OpenAI Codex."
+  },
+  "plugins": [
+    {
+      "name": "full-stack-hq",
+      "source": "./",
+      "description": "Permission-first engineering kit: shared rules, 10 specialist agents, 28 skills, and 10 workflow commands.",
+      "category": "development"
+    }
+  ]
+}

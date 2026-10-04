@@ -42,7 +42,47 @@ network access, and filesystem behavior.
 
 ## Start here
 
-### Try it safely in 60 seconds
+### Claude Code: two commands, no clone
+
+Run these inside Claude Code:
+
+```text
+/plugin marketplace add sabahattink/antigravity-fullstack-hq
+/plugin install full-stack-hq@full-stack-hq
+```
+
+Start a new session. The shared rules load at session start, the 10 specialist
+agents and 28 skills become available, and the 10 workflows appear as
+namespaced commands such as `/full-stack-hq:plan`. Upgrade with
+`claude plugin update full-stack-hq@full-stack-hq` and remove it with
+`claude plugin uninstall full-stack-hq@full-stack-hq`.
+
+Use either the plugin or the Claude installer (`--only-claude`), not both;
+together they load the same rules, agents, and skills twice.
+
+### Any host: one line, no clone
+
+Preview first. `--dry-run` shows every file that would be written and changes
+nothing:
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/bootstrap.sh | bash -s -- --dry-run
+```
+
+```powershell
+# Windows PowerShell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/bootstrap.ps1))) -DryRun
+```
+
+Drop `--dry-run` / `-DryRun` to install, or add any installer option such as
+`--only-codex` / `-OnlyCodex` and `--backup` / `-Backup`. The bootstrap makes a
+temporary shallow checkout, runs the regular installer with your options, and
+deletes the checkout. Pin a release with `FULL_STACK_HQ_REF=v1.2.0` (Bash) or
+`-Ref v1.2.0` (PowerShell). Read [`bootstrap.sh`](bootstrap.sh) or
+[`bootstrap.ps1`](bootstrap.ps1) before piping either into a shell.
+
+### Try it from a checkout
 
 Preview the Codex adapter without changing your real host configuration:
 
@@ -144,6 +184,11 @@ instructions, Agent Skills for reusable procedures, and TOML custom agents with
 </details>
 
 ## Portable package
+
+The repository root is also a Claude Code plugin marketplace.
+`.claude-plugin/` describes the plugin, `hooks/hooks.json` loads the shared
+rules at session start, and the plugin reads the canonical `agents/`,
+`skills/`, and `workflows/` directly, so there is no second copy to drift.
 
 The repository root also contains a portable `plugin.json` manifest beside the
 canonical `skills/` directory. Plugin-aware OpenAI hosts can consume that
@@ -282,7 +327,10 @@ so repeated questions can become documentation improvements.
 |---|---|
 | `core/rules/common.md` | Host-neutral engineering policy and shared behavior. |
 | `adapters/` | Thin Claude, Antigravity, and Codex integration layers. |
+| `.claude-plugin/` | Claude Code plugin and marketplace manifests. |
+| `hooks/hooks.json` | Claude Code plugin hook that loads the shared rules. |
 | `plugin.json` | Portable plugin manifest for the existing canonical skills. |
+| `bootstrap.sh` / `bootstrap.ps1` | One-line installers that run without a manual clone. |
 | `docs/assets/` | Repository-local terminal, architecture, and workflow visuals. |
 | `agents/` | 10 canonical specialist role definitions. |
 | `skills/` | 28 canonical Agent Skills for recurring engineering tasks. |

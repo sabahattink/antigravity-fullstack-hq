@@ -11,6 +11,9 @@ runtime, package manager, or production service to deploy.
 - `skills/` contains canonical Agent Skills.
 - `workflows/` contains canonical workflow bodies and the Antigravity legacy bridge.
 - `plugin.json` packages the existing canonical skills for plugin-aware hosts.
+- `.claude-plugin/` and `hooks/hooks.json` expose the canonical agents, skills,
+  workflows, and shared rules as a Claude Code plugin marketplace.
+- `bootstrap.*` fetch a temporary checkout and run the matching installer.
 - `scripts/build-adapters.*` renders Codex TOML agents and workflow-to-skill adapters.
 
 Do not create separate copies of shared agent or skill instructions for each

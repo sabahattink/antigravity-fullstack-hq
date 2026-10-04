@@ -42,8 +42,14 @@ function Validate-Directory([string]$Directory, [string]$Pattern, [string]$Kind)
 foreach ($Required in @(
     "AGENTS.md",
     "plugin.json",
+    ".claude-plugin\plugin.json",
+    ".claude-plugin\marketplace.json",
+    "hooks\hooks.json",
+    "bootstrap.ps1",
+    "bootstrap.sh",
     "core\rules\common.md",
     "adapters\claude\rules.md",
+    "adapters\claude\plugin.md",
     "adapters\antigravity\rules.md",
     "adapters\codex\rules.md",
     "scripts\build-adapters.ps1",
@@ -71,6 +77,32 @@ try {
 }
 catch {
     Add-Failure "Invalid plugin manifest: $($_.Exception.Message)"
+}
+
+try {
+    $ClaudePlugin = Get-Content -LiteralPath (Join-Path $RepoRoot ".claude-plugin\plugin.json") -Raw | ConvertFrom-Json
+    if ([string]$ClaudePlugin.name -ne "full-stack-hq") { Add-Failure "Claude plugin name must be full-stack-hq" }
+    if ([string]$ClaudePlugin.version -ne [string]$Plugin.version) { Add-Failure "Claude plugin version must match plugin.json" }
+    if ([string]$ClaudePlugin.commands -ne "./workflows/") { Add-Failure "Claude plugin commands must point to ./workflows/" }
+
+    $Marketplace = Get-Content -LiteralPath (Join-Path $RepoRoot ".claude-plugin\marketplace.json") -Raw | ConvertFrom-Json
+    $Listed = @($Marketplace.plugins | Where-Object { $_.name -eq "full-stack-hq" })
+    if ($Listed.Count -ne 1) { Add-Failure "Claude marketplace must list full-stack-hq" }
+    elseif ([string]$Listed[0].source -ne "./") { Add-Failure "Claude marketplace plugin source must be ./" }
+
+    $Hooks = Read-Normalized (Join-Path $RepoRoot "hooks\hooks.json")
+    $null = $Hooks | ConvertFrom-Json
+    foreach ($HookSource in @("core/rules/common.md", "adapters/claude/plugin.md")) {
+        if (-not $Hooks.Contains("`${CLAUDE_PLUGIN_ROOT}/$HookSource")) { Add-Failure "Claude session hook must load $HookSource" }
+    }
+    # Claude Code caps context injected by a hook at 10,000 characters. Counting
+    # UTF-8 bytes of the LF-normalized text matches the Bash validator.
+    $HookText = (Read-Normalized (Join-Path $RepoRoot "core\rules\common.md")) + (Read-Normalized (Join-Path $RepoRoot "adapters\claude\plugin.md"))
+    $HookBytes = [System.Text.Encoding]::UTF8.GetByteCount($HookText)
+    if ($HookBytes -gt 10000) { Add-Failure "Claude plugin session rules exceed 10000 bytes: $HookBytes" }
+}
+catch {
+    Add-Failure "Invalid Claude plugin package: $($_.Exception.Message)"
 }
 
 $Agents = Validate-Directory (Join-Path $RepoRoot "agents") "*.md" "agent"

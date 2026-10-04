@@ -25,6 +25,8 @@ improve the shared core once and keep each adapter thin.
 | Reusable domain guidance | skills/<name>/SKILL.md |
 | Reusable procedure | workflows/<name>.md |
 | Portable plugin metadata | plugin.json and docs/PLUGIN.md |
+| Claude Code plugin | .claude-plugin/, hooks/hooks.json, adapters/claude/plugin.md |
+| One-line installers | bootstrap.ps1 and bootstrap.sh |
 | Installer behavior | install.ps1 and install.sh |
 | Adapter generation | scripts/build-adapters.ps1 and .sh |
 | Validation | scripts/validate.ps1 and .sh |
@@ -104,10 +106,11 @@ Also review:
 - generated workflow skill count
 - rule file size for Antigravity
 - accidental host-specific references in canonical agents and rules
+- Claude plugin manifests, with `claude plugin validate <manifest> --strict`
 - docs and changelog consistency
 
 The GitHub Actions validation job runs the platform-native validator on Windows
-and Ubuntu.
+and Ubuntu, and validates the Claude plugin manifests with the Claude Code CLI.
 
 ## Commit and pull request conventions
 

@@ -9,7 +9,37 @@ project dependencies.
 - Git
 - One or more supported hosts
 - PowerShell on Windows, or Bash on macOS/Linux
-- A local checkout of this repository
+- A local checkout of this repository, or the one-line bootstrap below
+
+## Claude Code plugin
+
+Claude Code users can skip the installer entirely. Inside Claude Code:
+
+    /plugin marketplace add sabahattink/antigravity-fullstack-hq
+    /plugin install full-stack-hq@full-stack-hq
+
+Start a new session afterwards. The plugin loads the shared rules at session
+start and provides the agents, skills, and workflow commands
+(`/full-stack-hq:plan` and so on). Use the plugin or the Claude installer, not
+both. See [PLUGIN.md](PLUGIN.md) for details.
+
+## One-line installation
+
+The bootstrap scripts fetch a temporary shallow checkout, run the regular
+installer with the options you pass, and delete the checkout. Preview first:
+
+### Windows
+
+    & ([scriptblock]::Create((irm https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/bootstrap.ps1))) -DryRun
+
+### macOS / Linux
+
+    curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-hq/main/bootstrap.sh | bash -s -- --dry-run
+
+Every installer option is accepted, for example `-OnlyCodex -Backup` or
+`--only-codex --backup`. Pin a tag or commit with `-Ref v1.2.0` or
+`FULL_STACK_HQ_REF=v1.2.0`. When the Bash bootstrap is piped and there is no
+terminal to ask, it keeps existing global instruction files.
 
 ## Standard installation
 
@@ -203,6 +233,10 @@ compatibility bridge refresh it, or remove that old tree manually only after
 confirming it contains no custom files.
 
 ## Uninstallation
+
+For the Claude Code plugin, run:
+
+    claude plugin uninstall full-stack-hq@full-stack-hq
 
 The installer does not provide an automatic delete operation because global
 configuration files may contain user customizations.

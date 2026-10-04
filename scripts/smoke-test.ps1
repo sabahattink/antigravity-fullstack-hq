@@ -51,6 +51,22 @@ try {
     Assert-Count (Join-Path $TargetRoot ".agents\skills") "SKILL.md" $ExpectedSkillAdapters "Codex skills"
 
     Write-Host ""
+    Write-Host "  Bootstrap from the committed HEAD (as with irm)"
+    $BootstrapRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("full-stack-hq-bootstrap-" + [guid]::NewGuid().ToString("N"))
+    try {
+        $HeadCommit = (git -C $RepoRoot rev-parse HEAD).Trim()
+        $RepoPath = (Resolve-Path -LiteralPath $RepoRoot).Path
+        $RepoUrl = [System.Uri]::new($RepoPath).AbsoluteUri
+        $Bootstrap = [scriptblock]::Create((Get-Content -LiteralPath (Join-Path $RepoRoot "bootstrap.ps1") -Raw))
+        & $Bootstrap -OnlyCodex -Force -TargetRoot $BootstrapRoot -Ref $HeadCommit -RepoUrl $RepoUrl
+        Assert-Path (Join-Path $BootstrapRoot ".codex\AGENTS.md") "Bootstrap Codex global rules"
+        Assert-Count (Join-Path $BootstrapRoot ".codex\agents") "*.toml" $ExpectedAgents "Bootstrap Codex custom agents"
+    }
+    finally {
+        Remove-Item -LiteralPath $BootstrapRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    Write-Host ""
     Write-Host "  Smoke test passed." -ForegroundColor Green
 }
 finally {
