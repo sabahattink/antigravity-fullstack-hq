@@ -39,5 +39,9 @@ source of truth: skill bodies remain in `skills/`, while global rules,
 specialist agents, legacy workflows, and generated host files remain the
 responsibility of the installers and adapters.
 
+The `.claude-plugin/` manifests are the same kind of seam for Claude Code: the
+plugin reads `agents/`, `skills/`, and `workflows/` in place, and its session
+hook prints `core/rules/common.md` followed by `adapters/claude/plugin.md`.
+
 See [the portable package guide](../docs/PLUGIN.md) and the official
 [OpenAI plugin documentation](https://learn.chatgpt.com/docs/build-plugins).

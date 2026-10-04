@@ -1,0 +1,16 @@
+{
+  "description": "Load the Full Stack HQ shared engineering rules at the start of each session.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"${CLAUDE_PLUGIN_ROOT}/core/rules/common.md\" \"${CLAUDE_PLUGIN_ROOT}/adapters/claude/plugin.md\""
+          }
+        ]
+      }
+    ]
+  }
+}

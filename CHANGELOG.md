@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — One-command installs
+- Claude Code plugin marketplace (`.claude-plugin/`): install with
+  `/plugin marketplace add sabahattink/antigravity-fullstack-hq` and
+  `/plugin install full-stack-hq@full-stack-hq`, without cloning
+- Session-start hook that loads the shared rules plus a small plugin adapter
+  (`adapters/claude/plugin.md`); workflows are exposed as namespaced commands
+- `bootstrap.sh` and `bootstrap.ps1` one-line installers that fetch a
+  temporary shallow checkout, pass every option to the installer, and clean up
+- Validator checks for the Claude manifests, version parity with
+  `plugin.json`, the hook sources, and the 10,000-character hook budget
+- Smoke tests now install through the bootstrap scripts
+- CI validates the Claude plugin manifests with `claude plugin validate --strict`
+
+### Fixed
+- `install.sh` no longer exits when a replace prompt reads end-of-input; it
+  keeps the existing file instead
+
 ## [1.2.0] - 2026-09-20
 
 ### Added — Launch and feedback kit

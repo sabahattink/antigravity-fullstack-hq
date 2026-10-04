@@ -136,7 +136,7 @@ copy_file() {
     if [[ "$exists" == true && "$FORCE" != true ]]; then
         if [[ "$prompt" == true ]]; then
             log_warn "$label already exists"
-            read -r -p "  Replace? (y/N) " response
+            read -r -p "  Replace? (y/N) " response || response=""
             if [[ "$response" != "y" && "$response" != "Y" ]]; then
                 log_skip "$label (kept existing)"
                 return 0

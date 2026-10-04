@@ -1,0 +1,23 @@
+{
+  "name": "full-stack-hq",
+  "version": "1.2.0",
+  "description": "Permission-first engineering kit: shared rules, 10 specialist agents, 28 skills, and 10 workflow commands.",
+  "author": {
+    "name": "Sabahattin Kalkan",
+    "url": "https://github.com/sabahattink"
+  },
+  "homepage": "https://github.com/sabahattink/antigravity-fullstack-hq",
+  "repository": "https://github.com/sabahattink/antigravity-fullstack-hq",
+  "license": "MIT",
+  "keywords": [
+    "engineering",
+    "workflow",
+    "agents",
+    "skills",
+    "permission-first",
+    "full-stack",
+    "codex",
+    "antigravity"
+  ],
+  "commands": "./workflows/"
+}
