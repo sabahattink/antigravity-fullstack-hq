@@ -5,7 +5,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 TARGET_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-smoke.XXXXXX")"
 BOOTSTRAP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-bootstrap.XXXXXX")"
-trap 'rm -rf -- "$TARGET_ROOT" "$BOOTSTRAP_ROOT"' EXIT
+PROJECT_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-project.XXXXXX")"
+trap 'rm -rf -- "$TARGET_ROOT" "$BOOTSTRAP_ROOT" "$PROJECT_ROOT"' EXIT
 
 assert_path() {
     local path="$1" label="$2"
@@ -53,6 +54,25 @@ FULL_STACK_HQ_REPO_URL="file://$REPO_ROOT" FULL_STACK_HQ_REF="$(git -C "$REPO_RO
     bash -s -- --only-codex --force --target-root "$BOOTSTRAP_ROOT" < "$REPO_ROOT/bootstrap.sh"
 assert_path "$BOOTSTRAP_ROOT/.codex/AGENTS.md" "Bootstrap Codex global rules"
 assert_count "$BOOTSTRAP_ROOT/.codex/agents" '*.toml' "$expected_agents" "Bootstrap Codex custom agents"
+
+echo
+echo "  Project mode (existing AGENTS.md is preserved)"
+printf '# Existing project\n\nKeep this line.\n' > "$PROJECT_ROOT/AGENTS.md"
+cp "$PROJECT_ROOT/AGENTS.md" "$PROJECT_ROOT/AGENTS.md.orig"
+bash "$REPO_ROOT/install.sh" --project "$PROJECT_ROOT" > /dev/null
+grep -qxF 'Keep this line.' "$PROJECT_ROOT/AGENTS.md" || { echo "[FAIL] Project install dropped existing content" >&2; exit 1; }
+grep -qF 'PLAN APPROVED' "$PROJECT_ROOT/AGENTS.md" || { echo "[FAIL] Project AGENTS.md is missing the shared rules" >&2; exit 1; }
+grep -qxF '@AGENTS.md' "$PROJECT_ROOT/CLAUDE.md" || { echo "[FAIL] Project CLAUDE.md does not import AGENTS.md" >&2; exit 1; }
+grep -qxF '@./AGENTS.md' "$PROJECT_ROOT/GEMINI.md" || { echo "[FAIL] Project GEMINI.md does not import AGENTS.md" >&2; exit 1; }
+echo "  [OK]   Project rules written; existing content kept"
+cp "$PROJECT_ROOT/AGENTS.md" "$PROJECT_ROOT/AGENTS.md.first"
+bash "$REPO_ROOT/install.sh" --project "$PROJECT_ROOT" > /dev/null
+cmp -s "$PROJECT_ROOT/AGENTS.md" "$PROJECT_ROOT/AGENTS.md.first" || { echo "[FAIL] Project install is not idempotent" >&2; exit 1; }
+echo "  [OK]   Re-running the project install changes nothing"
+bash "$REPO_ROOT/install.sh" --project "$PROJECT_ROOT" --uninstall > /dev/null
+cmp -s "$PROJECT_ROOT/AGENTS.md" "$PROJECT_ROOT/AGENTS.md.orig" || { echo "[FAIL] Project uninstall did not restore AGENTS.md" >&2; exit 1; }
+[[ ! -e "$PROJECT_ROOT/CLAUDE.md" && ! -e "$PROJECT_ROOT/GEMINI.md" ]] || { echo "[FAIL] Project uninstall left generated files behind" >&2; exit 1; }
+echo "  [OK]   Project uninstall restores the original files"
 
 echo
 echo "  Smoke test passed."

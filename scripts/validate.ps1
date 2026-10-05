@@ -53,6 +53,7 @@ foreach ($Required in @(
     "core\rules\common.md",
     "adapters\claude\rules.md",
     "adapters\claude\plugin.md",
+    "adapters\project\rules.md",
     "adapters\antigravity\rules.md",
     "adapters\codex\rules.md",
     "scripts\build-adapters.ps1",
@@ -168,6 +169,9 @@ try {
     $AntigravityRules = Join-Path $BuildDir "antigravity\GEMINI.md"
     $AntigravityChars = (Read-Normalized $AntigravityRules).Length
     if ($AntigravityChars -gt 12000) { Add-Failure "Antigravity global rules exceed 12000 characters: $AntigravityChars" }
+    # Codex stops reading project guidance at 32 KiB by default.
+    $ProjectBytes = [System.Text.Encoding]::UTF8.GetByteCount((Read-Normalized (Join-Path $BuildDir "project\AGENTS.md")))
+    if ($ProjectBytes -gt 32768) { Add-Failure "Project AGENTS.md exceeds 32768 bytes: $ProjectBytes" }
     $CodexAgents = @(Get-ChildItem (Join-Path $BuildDir "codex\agents") -Filter "*.toml" -File)
     if ($CodexAgents.Count -ne $Agents.Count) { Add-Failure "Codex agent adapter count mismatch" }
     foreach ($File in $CodexAgents) {

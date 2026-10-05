@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-10-05
+
+### Added — Project installs for every agent on a team
+- `--project DIR` / `-Project DIR` installs the shared rules into a
+  repository: `AGENTS.md` (read by Codex, Cursor, and GitHub Copilot) plus
+  one-line imports in `CLAUDE.md` (Claude Code) and `GEMINI.md` (Gemini CLI)
+- The installer manages only a marked block, keeps existing content and line
+  endings, and updates the block in place when re-run
+- `--uninstall` / `-Uninstall` removes the blocks and restores the original
+  files; files that held only the block are deleted
+- `adapters/project/rules.md`, rendered identically by both build scripts
+- `bootstrap.ps1` accepts `-Project` and `-Uninstall`
+- Smoke tests cover project install, idempotent re-runs, CRLF preservation,
+  and byte-for-byte uninstall on Windows and Ubuntu
+- Validators keep the project `AGENTS.md` within Codex's 32 KiB budget
+
+### Added — Documentation
+- `docs/COMPARISON.md` comparing Full Stack HQ with rule-sync tools and skill
+  frameworks, including when another tool is the better fit
+- `README.tr.md` Turkish summary
+
+### Fixed
+- `install.ps1` no longer fails on Linux or macOS when `USERPROFILE` is unset
+
+### Changed
+- CI uses `actions/checkout@v7` and `actions/setup-node@v7`; Dependabot keeps
+  GitHub Actions current
+
 ### Added — Discoverability
 - `llms.txt` with a plain-text project summary and doc index for AI assistants
 - `docs/FAQ.md` answering the most common questions, such as how to stop an

@@ -38,7 +38,7 @@ validate_document() {
     [[ -n "$body_text" ]] || fail "Empty $kind body: $path"
 }
 
-for required in AGENTS.md llms.txt CITATION.cff docs/FAQ.md plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json bootstrap.sh bootstrap.ps1 core/rules/common.md adapters/claude/rules.md adapters/claude/plugin.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
+for required in AGENTS.md llms.txt CITATION.cff docs/FAQ.md plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json bootstrap.sh bootstrap.ps1 core/rules/common.md adapters/claude/rules.md adapters/claude/plugin.md adapters/project/rules.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
     [[ -f "$REPO_ROOT/$required" ]] || fail "Missing required file: $required"
 done
 
@@ -114,6 +114,9 @@ bash "$REPO_ROOT/scripts/build-adapters.sh" --output-dir "$BUILD_DIR"
 
 antigravity_chars="$(wc -m < "$BUILD_DIR/antigravity/GEMINI.md" | tr -d ' ')"
 [[ "$antigravity_chars" -le 12000 ]] || fail "Antigravity global rules exceed 12000 characters: $antigravity_chars"
+# Codex stops reading project guidance at 32 KiB by default.
+project_bytes="$(wc -c < "$BUILD_DIR/project/AGENTS.md" | tr -d ' ')"
+[[ "$project_bytes" -le 32768 ]] || fail "Project AGENTS.md exceeds 32768 bytes: $project_bytes"
 agent_count="$(find "$REPO_ROOT/agents" -type f -name '*.md' | wc -l | tr -d ' ')"
 codex_agent_count="$(find "$BUILD_DIR/codex/agents" -type f -name '*.toml' | wc -l | tr -d ' ')"
 [[ "$agent_count" == "$codex_agent_count" ]] || fail "Codex agent adapter count mismatch"

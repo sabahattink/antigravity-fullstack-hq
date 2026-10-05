@@ -18,6 +18,8 @@ param(
     [switch]$OnlyAntigravity,
     [switch]$OnlyClaude,
     [switch]$OnlyCodex,
+    [string]$Project,
+    [switch]$Uninstall,
     [string]$Ref = $(if ($env:FULL_STACK_HQ_REF) { $env:FULL_STACK_HQ_REF } else { "main" }),
     [string]$RepoUrl = $(if ($env:FULL_STACK_HQ_REPO_URL) { $env:FULL_STACK_HQ_REPO_URL } else { "https://github.com/sabahattink/antigravity-fullstack-hq.git" })
 )
@@ -46,8 +48,11 @@ try {
     # Run the installer in a child process so the session's execution policy
     # does not block the freshly fetched script. The bypass ends with that process.
     $InstallerArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $WorkDir "install.ps1"))
-    foreach ($Name in @("Force", "Backup", "DryRun", "Check", "NoLegacyPaths", "OnlyAntigravity", "OnlyClaude", "OnlyCodex")) {
+    foreach ($Name in @("Force", "Backup", "DryRun", "Check", "NoLegacyPaths", "OnlyAntigravity", "OnlyClaude", "OnlyCodex", "Uninstall")) {
         if ($PSBoundParameters.ContainsKey($Name) -and $PSBoundParameters[$Name]) { $InstallerArgs += "-$Name" }
+    }
+    if (-not [string]::IsNullOrWhiteSpace($Project)) {
+        $InstallerArgs += @("-Project", $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Project))
     }
     if (-not [string]::IsNullOrWhiteSpace($TargetRoot)) {
         $InstallerArgs += @("-TargetRoot", $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($TargetRoot))

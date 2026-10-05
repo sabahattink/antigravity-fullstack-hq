@@ -1,6 +1,6 @@
 # Full Stack HQ
 
-> Full Stack HQ is an open-source, MIT-licensed, permission-first engineering configuration kit for AI coding agents. One shared set of rules, 10 specialist agents, 28 Agent Skills, and 10 workflows is rendered into the native formats of Claude Code (CLAUDE.md and a plugin), OpenAI Codex (AGENTS.md and TOML agents), and Google Antigravity IDE (GEMINI.md and workflows).
+> Full Stack HQ is an open-source, MIT-licensed, permission-first engineering configuration kit for AI coding agents. One shared set of rules, 10 specialist agents, 28 Agent Skills, and 10 workflows is rendered into the native formats of Claude Code (CLAUDE.md and a plugin), OpenAI Codex (AGENTS.md and TOML agents), and Google Antigravity IDE (GEMINI.md and workflows). A project install also covers Cursor, GitHub Copilot, and Gemini CLI through the repository's AGENTS.md.
 
 The core rule is Plan → Approval → Execute → Verify → Report: the agent inspects and plans first, and starts changing files only after the user's message contains an exact approval phrase such as `PLAN APPROVED`. These are instructions to the agent, not a sandbox; the host still controls tools and permissions.
 
@@ -11,6 +11,12 @@ Install in Claude Code without cloning:
 ```text
 /plugin marketplace add sabahattink/antigravity-fullstack-hq
 /plugin install full-stack-hq@full-stack-hq
+```
+
+Add the rules to a repository for the whole team. AGENTS.md gets the rules (read by Codex, Cursor, and GitHub Copilot); CLAUDE.md and GEMINI.md get one-line imports. Existing content is kept and `--uninstall` removes the block again:
+
+```bash
+bash install.sh --project ../your-repo
 ```
 
 Preview the Codex, Claude Code, or Antigravity install without writing any file:
@@ -24,13 +30,14 @@ curl -fsSL https://raw.githubusercontent.com/sabahattink/antigravity-fullstack-h
 - [README](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/README.md): overview, quick start, architecture, and the source-to-host file map
 - [FAQ](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/docs/FAQ.md): common questions such as how to stop an agent from editing files without asking
 - [Setup guide](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/docs/SETUP.md): installation, upgrades, migration, troubleshooting, and uninstallation
+- [Comparison](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/docs/COMPARISON.md): how Full Stack HQ differs from rule-sync tools and skill frameworks
 - [Plugin packages](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/docs/PLUGIN.md): the Claude Code plugin marketplace and the portable plugin manifest
 - [Customization guide](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/docs/CUSTOMIZATION.md): change shared rules, agents, skills, and workflows without creating drift
 
 ## Source
 
 - [Shared rules](https://github.com/sabahattink/antigravity-fullstack-hq/blob/main/core/rules/common.md): the host-neutral engineering policy every adapter starts from
-- [Host adapters](https://github.com/sabahattink/antigravity-fullstack-hq/tree/main/adapters): the small host-specific additions for Claude Code, Codex, and Antigravity
+- [Host adapters](https://github.com/sabahattink/antigravity-fullstack-hq/tree/main/adapters): the small host-specific additions for Claude Code, Codex, Antigravity, and project installs
 - [Agents](https://github.com/sabahattink/antigravity-fullstack-hq/tree/main/agents): architect, frontend, backend, database, code reviewer, test engineer, security auditor, DevOps, performance, and documentation specialists
 - [Skills](https://github.com/sabahattink/antigravity-fullstack-hq/tree/main/skills): Next.js, React, TypeScript, Tailwind, NestJS, Prisma, API design, auth, security, testing, debugging, Docker, GitHub Actions, deployment, and document skills
 - [Workflows](https://github.com/sabahattink/antigravity-fullstack-hq/tree/main/workflows): plan, brainstorm, create, debug, enhance, test, status, preview, orchestrate, and ui-ux-pro-max

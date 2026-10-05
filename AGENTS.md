@@ -6,7 +6,8 @@ runtime, package manager, or production service to deploy.
 ## Source of truth
 
 - `core/rules/common.md` contains host-neutral engineering policy.
-- `adapters/<host>/rules.md` contains only host-specific integration guidance.
+- `adapters/<host>/rules.md` contains only host-specific integration guidance;
+  `adapters/project/rules.md` is the adapter for repository (project) installs.
 - `agents/` contains canonical Markdown agent bodies.
 - `skills/` contains canonical Agent Skills.
 - `workflows/` contains canonical workflow bodies and the Antigravity legacy bridge.

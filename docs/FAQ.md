@@ -48,6 +48,31 @@ small host adapter and write each host's native file:
 Because every host file is generated from the same source, the copies do not
 drift apart. See the [customization guide](CUSTOMIZATION.md).
 
+## How do I add the rules to a repository for my whole team?
+
+Run the installer with the project option from a checkout of this repository:
+
+```bash
+bash install.sh --project ../your-repo
+```
+
+```powershell
+.\install.ps1 -Project ..\your-repo
+```
+
+It writes the shared rules into the repository's `AGENTS.md` and adds one-line
+imports to `CLAUDE.md` and `GEMINI.md`. Only the block between the
+`full-stack-hq:start` and `full-stack-hq:end` markers is managed; anything the
+repository already had in those files is kept. Commit the files so everyone
+gets the same rules. See [Project installation](SETUP.md#project-installation).
+
+## Does it work with Cursor, GitHub Copilot, or Gemini CLI?
+
+Yes, through a project install. Cursor and GitHub Copilot read a repository's
+`AGENTS.md`, and Gemini CLI reads `GEMINI.md`, which imports `AGENTS.md`. The
+global installers and the plugin target Claude Code, OpenAI Codex, and Google
+Antigravity IDE.
+
 ## What is the difference between CLAUDE.md, AGENTS.md, and GEMINI.md?
 
 They are the global instruction files that different hosts read:
@@ -127,9 +152,18 @@ For the Claude Code plugin:
 claude plugin uninstall full-stack-hq@full-stack-hq
 ```
 
-The installers do not delete files automatically, because global instruction
-files may contain your own edits. Remove the installed files manually after
-reviewing them; see [Uninstallation](SETUP.md#uninstallation).
+For a project install:
+
+```bash
+bash install.sh --project ../your-repo --uninstall
+```
+
+This removes only the Full Stack HQ blocks and restores the files to how they
+were before.
+
+The global installers do not delete files automatically, because global
+instruction files may contain your own edits. Remove the installed files
+manually after reviewing them; see [Uninstallation](SETUP.md#uninstallation).
 
 ## Is it a security boundary?
 
