@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Discoverability
+- `llms.txt` with a plain-text project summary and doc index for AI assistants
+- `docs/FAQ.md` answering the most common questions, such as how to stop an
+  agent from editing files without approval and how to share one set of rules
+  across Claude Code, Codex, and Antigravity
+- `CITATION.cff` so GitHub offers citation metadata
+- README introduction that states what the project is, who it is for, and its
+  repository and plugin names
+- Validators check that every repository link in `llms.txt` resolves
+
 ## [1.3.0] - 2026-10-04
 
 ### Added — One-command installs

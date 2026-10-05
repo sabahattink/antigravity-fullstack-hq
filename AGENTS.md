@@ -14,6 +14,8 @@ runtime, package manager, or production service to deploy.
 - `.claude-plugin/` and `hooks/hooks.json` expose the canonical agents, skills,
   workflows, and shared rules as a Claude Code plugin marketplace.
 - `bootstrap.*` fetch a temporary checkout and run the matching installer.
+- `llms.txt` and `docs/FAQ.md` summarize the project for AI assistants and
+  people; keep their counts, commands, and links in sync with the source.
 - `scripts/build-adapters.*` renders Codex TOML agents and workflow-to-skill adapters.
 
 Do not create separate copies of shared agent or skill instructions for each
