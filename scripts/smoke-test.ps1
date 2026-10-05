@@ -67,6 +67,34 @@ try {
     }
 
     Write-Host ""
+    Write-Host "  Project mode (existing AGENTS.md is preserved)"
+    $ProjectRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("full-stack-hq-project-" + [guid]::NewGuid().ToString("N"))
+    New-Item -ItemType Directory -Force -Path $ProjectRoot | Out-Null
+    try {
+        $AgentsPath = Join-Path $ProjectRoot "AGENTS.md"
+        $Original = "# Existing project`r`n`r`nKeep this line.`r`n"
+        [System.IO.File]::WriteAllText($AgentsPath, $Original)
+        & (Join-Path $RepoRoot "install.ps1") -Project $ProjectRoot | Out-Null
+        $Installed = [System.IO.File]::ReadAllText($AgentsPath)
+        if (-not $Installed.Contains("Keep this line.")) { throw "Project install dropped existing content" }
+        if (-not $Installed.Contains("PLAN APPROVED")) { throw "Project AGENTS.md is missing the shared rules" }
+        if ($Installed -match "(?<!`r)`n") { throw "Project AGENTS.md mixes line endings" }
+        if (-not (Get-Content -LiteralPath (Join-Path $ProjectRoot "CLAUDE.md")).Contains("@AGENTS.md")) { throw "Project CLAUDE.md does not import AGENTS.md" }
+        if (-not (Get-Content -LiteralPath (Join-Path $ProjectRoot "GEMINI.md")).Contains("@./AGENTS.md")) { throw "Project GEMINI.md does not import AGENTS.md" }
+        Write-Host "  [OK]   Project rules written; existing content and CRLF kept" -ForegroundColor Green
+        & (Join-Path $RepoRoot "install.ps1") -Project $ProjectRoot | Out-Null
+        if ([System.IO.File]::ReadAllText($AgentsPath) -cne $Installed) { throw "Project install is not idempotent" }
+        Write-Host "  [OK]   Re-running the project install changes nothing" -ForegroundColor Green
+        & (Join-Path $RepoRoot "install.ps1") -Project $ProjectRoot -Uninstall | Out-Null
+        if ([System.IO.File]::ReadAllText($AgentsPath) -cne $Original) { throw "Project uninstall did not restore AGENTS.md" }
+        if ((Test-Path -LiteralPath (Join-Path $ProjectRoot "CLAUDE.md")) -or (Test-Path -LiteralPath (Join-Path $ProjectRoot "GEMINI.md"))) { throw "Project uninstall left generated files behind" }
+        Write-Host "  [OK]   Project uninstall restores the original files" -ForegroundColor Green
+    }
+    finally {
+        Remove-Item -LiteralPath $ProjectRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    Write-Host ""
     Write-Host "  Smoke test passed." -ForegroundColor Green
 }
 finally {

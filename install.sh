@@ -17,6 +17,8 @@ NO_LEGACY_PATHS=false
 ONLY_ANTIGRAVITY=false
 ONLY_CLAUDE=false
 ONLY_CODEX=false
+PROJECT_DIR=""
+UNINSTALL=false
 
 usage() {
     cat <<'EOF'
@@ -32,6 +34,9 @@ Options:
   --backup             Back up replaced files beside their original path
   --dry-run            Show planned changes without writing target files
   --target-root DIR    Install into an isolated home-like directory for testing
+  --project DIR        Add the shared rules to a repository instead of the home
+                       directory: AGENTS.md, plus CLAUDE.md and GEMINI.md imports
+  --uninstall          With --project, remove the Full Stack HQ blocks again
   --no-legacy-paths    Do not refresh an existing Antigravity legacy path
   --check              Validate the repository and adapter renderers
   -h, --help           Show this help
@@ -50,6 +55,12 @@ while [[ $# -gt 0 ]]; do
             TARGET_ROOT="$2"
             shift
             ;;
+        --project)
+            [[ $# -ge 2 ]] || { echo "--project needs a value" >&2; exit 2; }
+            PROJECT_DIR="$2"
+            shift
+            ;;
+        --uninstall) UNINSTALL=true ;;
         --only-antigravity) ONLY_ANTIGRAVITY=true ;;
         --only-claude) ONLY_CLAUDE=true ;;
         --only-codex) ONLY_CODEX=true ;;
@@ -58,6 +69,17 @@ while [[ $# -gt 0 ]]; do
     esac
     shift
 done
+
+if [[ "$UNINSTALL" == true && -z "$PROJECT_DIR" ]]; then
+    echo "--uninstall works with --project. For the Claude Code plugin run: claude plugin uninstall full-stack-hq@full-stack-hq" >&2
+    echo "Global installs are removed manually; see docs/SETUP.md#uninstallation." >&2
+    exit 2
+fi
+if [[ -n "$PROJECT_DIR" ]]; then
+    [[ -z "$TARGET_ROOT" ]] || { echo "Choose either --project or --target-root." >&2; exit 2; }
+    [[ -d "$PROJECT_DIR" ]] || { echo "Project directory not found: $PROJECT_DIR" >&2; exit 2; }
+    PROJECT_DIR="$(cd -- "$PROJECT_DIR" && pwd)"
+fi
 
 if [[ -n "$TARGET_ROOT" ]]; then
     if [[ "$DRY_RUN" == true || "$CHECK" == true ]]; then
@@ -175,6 +197,126 @@ file_count() {
     find "$1" -type f 2>/dev/null | wc -l | tr -d ' '
 }
 
+# Project mode owns only the lines between these markers, so content the
+# repository already has in AGENTS.md, CLAUDE.md, or GEMINI.md is preserved.
+BLOCK_START='<!-- full-stack-hq:start -->'
+BLOCK_END='<!-- full-stack-hq:end -->'
+
+block_state() {
+    local file="$1"
+    [[ -f "$file" ]] || { echo none; return; }
+    awk -v s="$BLOCK_START" -v e="$BLOCK_END" '
+        { line = $0; sub(/\r$/, "", line) }
+        line == s { starts++; if (!start_at) start_at = NR }
+        line == e { ends++; if (!end_at) end_at = NR }
+        END {
+            if (!starts && !ends) print "none"
+            else if (starts == 1 && ends == 1 && start_at < end_at) print "ok"
+            else print "broken"
+        }' "$file"
+}
+
+replace_project_file() {
+    local file="$1" new_content="$2" label="$3"
+    if [[ -f "$file" ]] && cmp -s "$new_content" "$file"; then
+        log_skip "$label (already up to date)"
+        return 0
+    fi
+    if [[ -f "$file" && "$BACKUP" == true ]]; then
+        local target_backup
+        target_backup="$(backup_path "$file")"
+        cp -p "$file" "$target_backup"
+        log_ok "$label backup → $target_backup"
+    fi
+    cat "$new_content" > "$file"
+    log_ok "$label"
+}
+
+write_project_block() {
+    local file="$1" body="$2" label="$3" state block_file result_file
+    state="$(block_state "$file")"
+    if [[ "$state" == broken ]]; then
+        echo "Malformed Full Stack HQ markers in $file; fix or remove them and run again." >&2
+        exit 1
+    fi
+    if [[ "$DRY_RUN" == true ]]; then
+        if [[ ! -f "$file" ]]; then log_plan "create $file"
+        elif [[ "$state" == ok ]]; then log_plan "update the Full Stack HQ block in $file"
+        else log_plan "append a Full Stack HQ block to $file"; fi
+        return 0
+    fi
+    block_file="$BUILD_DIR/project-block"
+    result_file="$BUILD_DIR/project-result"
+    { printf '%s\n' "$BLOCK_START"; cat "$body"; printf '%s\n' "$BLOCK_END"; } > "$block_file"
+    # Keep the file's existing line endings so a Windows checkout stays CRLF.
+    if [[ -f "$file" ]] && grep -q $'\r$' "$file"; then
+        sed -i.tmp 's/$/\r/' "$block_file" && rm -f "$block_file.tmp"
+    fi
+    if [[ ! -f "$file" ]]; then
+        cp "$block_file" "$result_file"
+    elif [[ "$state" == ok ]]; then
+        awk -v s="$BLOCK_START" -v e="$BLOCK_END" -v block="$block_file" '
+            { line = $0; sub(/\r$/, "", line) }
+            skip { if (line == e) skip = 0; next }
+            line == s { while ((getline b < block) > 0) print b; skip = 1; next }
+            { print }' "$file" > "$result_file"
+    else
+        {
+            cat "$file"
+            if [[ -s "$file" ]]; then
+                if grep -q $'\r$' "$file"; then
+                    [[ -z "$(tail -c 1 "$file")" ]] || printf '\r\n'
+                    printf '\r\n'
+                else
+                    [[ -z "$(tail -c 1 "$file")" ]] || printf '\n'
+                    printf '\n'
+                fi
+            fi
+            cat "$block_file"
+        } > "$result_file"
+    fi
+    replace_project_file "$file" "$result_file" "$label"
+}
+
+remove_project_block() {
+    local file="$1" label="$2" state result_file
+    state="$(block_state "$file")"
+    if [[ "$state" == none ]]; then
+        log_skip "$label (no Full Stack HQ block)"
+        return 0
+    fi
+    if [[ "$state" == broken ]]; then
+        echo "Malformed Full Stack HQ markers in $file; fix or remove them and run again." >&2
+        exit 1
+    fi
+    result_file="$BUILD_DIR/project-result"
+    # Drop the block and the blank separator line written in front of it.
+    awk -v s="$BLOCK_START" -v e="$BLOCK_END" '
+        { line = $0; sub(/\r$/, "", line) }
+        skip { if (line == e) skip = 0; next }
+        line == s { skip = 1; held = 0; next }
+        line == "" { if (held) print hold; hold = $0; held = 1; next }
+        { if (held) { print hold; held = 0 } print }
+        END { if (held) print hold }' "$file" > "$result_file"
+    if [[ "$DRY_RUN" == true ]]; then
+        if grep -q '[^[:space:]]' "$result_file"; then log_plan "remove the Full Stack HQ block from $file"
+        else log_plan "delete $file (it only holds the Full Stack HQ block)"; fi
+        return 0
+    fi
+    if grep -q '[^[:space:]]' "$result_file"; then
+        replace_project_file "$file" "$result_file" "$label"
+    else
+        if [[ "$BACKUP" == true ]]; then
+            local target_backup
+            target_backup="$(backup_path "$file")"
+            cp -p "$file" "$target_backup"
+            log_ok "$label backup → $target_backup"
+        fi
+        rm -f -- "$file"
+        log_ok "$label removed (it only held the Full Stack HQ block)"
+    fi
+}
+
 if ! command -v git >/dev/null 2>&1; then
     echo "Git not found. Run this installer from a local checkout." >&2
     exit 1
@@ -211,6 +353,29 @@ fi
 BUILD_DIR="$(mktemp -d "${TMPDIR:-/tmp}/full-stack-hq-install.XXXXXX")"
 trap 'rm -rf "$BUILD_DIR"' EXIT
 bash "$SCRIPT_DIR/scripts/build-adapters.sh" --output-dir "$BUILD_DIR"
+
+if [[ -n "$PROJECT_DIR" ]]; then
+    printf '%s\n' '@AGENTS.md' > "$BUILD_DIR/claude-import.md"
+    printf '%s\n' '@./AGENTS.md' > "$BUILD_DIR/gemini-import.md"
+    if [[ "$UNINSTALL" == true ]]; then
+        section "Remove Full Stack HQ from $PROJECT_DIR"
+        [[ "$INSTALL_CLAUDE" == true ]] && remove_project_block "$PROJECT_DIR/CLAUDE.md" "CLAUDE.md"
+        [[ "$INSTALL_ANTIGRAVITY" == true ]] && remove_project_block "$PROJECT_DIR/GEMINI.md" "GEMINI.md"
+        remove_project_block "$PROJECT_DIR/AGENTS.md" "AGENTS.md"
+        echo
+        echo -e "\033[0;32mProject uninstall complete.\033[0m"
+        exit 0
+    fi
+    section "Project rules → $PROJECT_DIR"
+    write_project_block "$PROJECT_DIR/AGENTS.md" "$BUILD_DIR/project/AGENTS.md" "AGENTS.md (Codex, Cursor, GitHub Copilot)"
+    [[ "$INSTALL_CLAUDE" == true ]] && write_project_block "$PROJECT_DIR/CLAUDE.md" "$BUILD_DIR/claude-import.md" "CLAUDE.md (Claude Code, imports AGENTS.md)"
+    [[ "$INSTALL_ANTIGRAVITY" == true ]] && write_project_block "$PROJECT_DIR/GEMINI.md" "$BUILD_DIR/gemini-import.md" "GEMINI.md (Gemini CLI, imports AGENTS.md)"
+    echo
+    echo -e "\033[0;32mProject install complete.\033[0m"
+    echo "  Commit AGENTS.md, CLAUDE.md, and GEMINI.md so everyone on the project shares the rules."
+    echo "  Re-run the same command to update; add --uninstall to remove the blocks."
+    exit 0
+fi
 
 if [[ "$INSTALL_ANTIGRAVITY" == true ]]; then
     section "Google Antigravity IDE"

@@ -41,6 +41,43 @@ Every installer option is accepted, for example `-OnlyCodex -Backup` or
 `FULL_STACK_HQ_REF=v1.3.0`. When the Bash bootstrap is piped and there is no
 terminal to ask, it keeps existing global instruction files.
 
+## Project installation
+
+To share the rules with everyone who works in a repository, install them into
+the project instead of your home directory:
+
+    # macOS / Linux
+    bash install.sh --project ../your-repo
+
+    # Windows PowerShell
+    .\install.ps1 -Project ..\your-repo
+
+This writes three small files at the repository root:
+
+| File | Content | Read by |
+|---|---|---|
+| AGENTS.md | The shared rules plus a short project adapter | Codex, Cursor, GitHub Copilot, and other AGENTS.md-aware agents |
+| CLAUDE.md | A one-line `@AGENTS.md` import | Claude Code |
+| GEMINI.md | A one-line `@./AGENTS.md` import | Gemini CLI |
+
+The installer owns only the lines between `<!-- full-stack-hq:start -->` and
+`<!-- full-stack-hq:end -->`. Existing instructions in those files are kept,
+the file's line endings are preserved, and re-running the command updates the
+block in place. `--only-claude`, `--only-codex`, and `--only-antigravity`
+limit which import files are written; AGENTS.md is always written because the
+others import it. `--dry-run` and `--backup` work as usual.
+
+Project mode does not copy agents or skills into the repository. Use the
+Claude Code plugin or a global install for those.
+
+To remove the rules again:
+
+    bash install.sh --project ../your-repo --uninstall
+    .\install.ps1 -Project ..\your-repo -Uninstall
+
+Uninstall removes only the managed blocks. A file that contained nothing but
+the block is deleted, so the repository returns to its previous state.
+
 ## Standard installation
 
 ### Windows
@@ -237,6 +274,10 @@ confirming it contains no custom files.
 For the Claude Code plugin, run:
 
     claude plugin uninstall full-stack-hq@full-stack-hq
+
+For a project install, run the installer with `--project DIR --uninstall`
+(Bash) or `-Project DIR -Uninstall` (PowerShell); see
+[Project installation](#project-installation).
 
 The installer does not provide an automatic delete operation because global
 configuration files may contain user customizations.

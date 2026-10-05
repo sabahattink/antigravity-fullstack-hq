@@ -2,10 +2,11 @@
 
 <div align="center">
 
-<p><strong>One engineering core. Three AI-native hosts.</strong></p>
+<p><strong>One engineering core. Every AI coding agent on your team.</strong></p>
 
-<p>Tool-agnostic, permission-first engineering configuration for<br />
-Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
+<p>Permission-first engineering rules, agents, skills, and workflows for<br />
+Claude Code, OpenAI Codex, and Google Antigravity IDE, plus Cursor,<br />
+GitHub Copilot, and Gemini CLI through a repository's <code>AGENTS.md</code>.</p>
 
 <p>
   <a href="#quick-start">Quick start</a> ·
@@ -13,6 +14,8 @@ Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
   <a href="#whats-inside">What's inside</a> ·
   <a href="docs/SETUP.md">Setup guide</a> ·
   <a href="docs/FAQ.md">FAQ</a> ·
+  <a href="docs/COMPARISON.md">Comparison</a> ·
+  <a href="README.tr.md">Türkçe</a> ·
   <a href="docs/LAUNCH_PLAYBOOK.md">Launch playbook</a>
 </p>
 
@@ -89,6 +92,33 @@ temporary shallow checkout, runs the regular installer with your options, and
 deletes the checkout. Pin a release with `FULL_STACK_HQ_REF=v1.3.0` (Bash) or
 `-Ref v1.3.0` (PowerShell). Read [`bootstrap.sh`](bootstrap.sh) or
 [`bootstrap.ps1`](bootstrap.ps1) before piping either into a shell.
+
+### Your repository: shared rules for the whole team
+
+Add the rules to a project instead of your home directory. Everyone who opens
+the repository gets them, whatever coding agent they use:
+
+```bash
+# macOS / Linux, from a checkout of this repository
+bash install.sh --project ../your-repo
+```
+
+```powershell
+# Windows PowerShell
+.\install.ps1 -Project ..\your-repo
+```
+
+| File | Read by |
+|---|---|
+| `AGENTS.md` | OpenAI Codex, Cursor, GitHub Copilot, and other `AGENTS.md`-aware agents |
+| `CLAUDE.md` | Claude Code, through a one-line `@AGENTS.md` import |
+| `GEMINI.md` | Gemini CLI, through a one-line `@./AGENTS.md` import |
+
+The installer only manages the block between `<!-- full-stack-hq:start -->`
+and `<!-- full-stack-hq:end -->`, so instructions your repository already has
+are kept. Re-run the command to update the rules; add `--uninstall` /
+`-Uninstall` to remove the block and get the original files back. The one-line
+bootstrap accepts the same options.
 
 ### Try it from a checkout
 
@@ -253,6 +283,8 @@ PS> .\install.ps1 -OnlyAntigravity
 | `-TargetRoot DIR` | `--target-root DIR` | Test inside an isolated home-like directory. |
 | `-NoLegacyPaths` | `--no-legacy-paths` | Skip refreshing an existing Antigravity legacy tree. |
 | `-Check` | `--check` | Validate source and adapter generation before installing. |
+| `-Project DIR` | `--project DIR` | Add the rules to a repository's `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`. |
+| `-Uninstall` | `--uninstall` | With `--project`, remove the Full Stack HQ blocks again. |
 
 For a conservative upgrade:
 
@@ -334,7 +366,7 @@ so repeated questions can become documentation improvements.
 | Directory / file | Role |
 |---|---|
 | `core/rules/common.md` | Host-neutral engineering policy and shared behavior. |
-| `adapters/` | Thin Claude, Antigravity, and Codex integration layers. |
+| `adapters/` | Thin Claude, Antigravity, Codex, and project integration layers. |
 | `.claude-plugin/` | Claude Code plugin and marketplace manifests. |
 | `hooks/hooks.json` | Claude Code plugin hook that loads the shared rules. |
 | `plugin.json` | Portable plugin manifest for the existing canonical skills. |
@@ -463,6 +495,8 @@ every push to `main` and every pull request.
 
 - [Setup guide](docs/SETUP.md) — installation, upgrades, migration, and troubleshooting.
 - [FAQ](docs/FAQ.md) — short answers to the most common questions.
+- [Comparison](docs/COMPARISON.md) — how Full Stack HQ differs from rule-sync tools and skill frameworks.
+- [Türkçe özet](README.tr.md) — Turkish summary.
 - [First-run recipes](docs/FIRST_RUN.md) — safe previews, isolated tests, and feedback.
 - [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
 - [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
