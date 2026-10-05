@@ -38,7 +38,7 @@ validate_document() {
     [[ -n "$body_text" ]] || fail "Empty $kind body: $path"
 }
 
-for required in AGENTS.md plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json bootstrap.sh bootstrap.ps1 core/rules/common.md adapters/claude/rules.md adapters/claude/plugin.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
+for required in AGENTS.md llms.txt CITATION.cff docs/FAQ.md plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json hooks/hooks.json bootstrap.sh bootstrap.ps1 core/rules/common.md adapters/claude/rules.md adapters/claude/plugin.md adapters/antigravity/rules.md adapters/codex/rules.md scripts/build-adapters.ps1 scripts/build-adapters.sh scripts/doctor.ps1 scripts/doctor.sh scripts/smoke-test.ps1 scripts/smoke-test.sh; do
     [[ -f "$REPO_ROOT/$required" ]] || fail "Missing required file: $required"
 done
 
@@ -74,6 +74,16 @@ if [[ -f "$claude_hooks" ]]; then
     # bytes is a conservative stand-in that does not depend on the locale.
     hook_bytes="$(cat "$REPO_ROOT/core/rules/common.md" "$REPO_ROOT/adapters/claude/plugin.md" | wc -c | tr -d ' ')"
     [[ "$hook_bytes" -le 10000 ]] || fail "Claude plugin session rules exceed 10000 bytes: $hook_bytes"
+fi
+
+llms_txt="$REPO_ROOT/llms.txt"
+if [[ -f "$llms_txt" ]]; then
+    llms_links=0
+    while IFS= read -r link_path; do
+        llms_links=$((llms_links + 1))
+        [[ -e "$REPO_ROOT/$link_path" ]] || fail "llms.txt links to a missing path: $link_path"
+    done < <(grep -oE 'github\.com/sabahattink/antigravity-fullstack-hq/(blob|tree)/main/[^)]+' "$llms_txt" | sed -E 's#.*/(blob|tree)/main/##')
+    [[ "$llms_links" -gt 0 ]] || fail "llms.txt has no repository links"
 fi
 
 while IFS= read -r -d '' path; do

@@ -41,6 +41,9 @@ function Validate-Directory([string]$Directory, [string]$Pattern, [string]$Kind)
 
 foreach ($Required in @(
     "AGENTS.md",
+    "llms.txt",
+    "CITATION.cff",
+    "docs\FAQ.md",
     "plugin.json",
     ".claude-plugin\plugin.json",
     ".claude-plugin\marketplace.json",
@@ -103,6 +106,16 @@ try {
 }
 catch {
     Add-Failure "Invalid Claude plugin package: $($_.Exception.Message)"
+}
+
+$LlmsTxt = Join-Path $RepoRoot "llms.txt"
+if (Test-Path -LiteralPath $LlmsTxt) {
+    $LlmsLinks = [regex]::Matches((Read-Normalized $LlmsTxt), 'github\.com/sabahattink/antigravity-fullstack-hq/(?:blob|tree)/main/([^)]+)')
+    if ($LlmsLinks.Count -eq 0) { Add-Failure "llms.txt has no repository links" }
+    foreach ($Link in $LlmsLinks) {
+        $LinkPath = $Link.Groups[1].Value
+        if (-not (Test-Path -LiteralPath (Join-Path $RepoRoot $LinkPath))) { Add-Failure "llms.txt links to a missing path: $LinkPath" }
+    }
 }
 
 $Agents = Validate-Directory (Join-Path $RepoRoot "agents") "*.md" "agent"

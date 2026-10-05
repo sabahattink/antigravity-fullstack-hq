@@ -12,6 +12,7 @@ Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
   <a href="#architecture">Architecture</a> ·
   <a href="#whats-inside">What's inside</a> ·
   <a href="docs/SETUP.md">Setup guide</a> ·
+  <a href="docs/FAQ.md">FAQ</a> ·
   <a href="docs/LAUNCH_PLAYBOOK.md">Launch playbook</a>
 </p>
 
@@ -27,10 +28,17 @@ Google Antigravity IDE, Claude Code, and OpenAI Codex.</p>
 > **The short version:** keep the engineering policy in one readable source,
 > then render only the host-specific details each AI tool needs.
 
-Full Stack HQ is a configuration and documentation kit for serious software
-work. It gives AI coding hosts a shared operating model for planning,
-specialist routing, implementation, testing, security, and verification while
-preserving each host's native configuration format.
+Full Stack HQ is an open-source, permission-first engineering configuration
+kit for AI coding agents. One shared set of rules, 10 specialist agents,
+28 Agent Skills, and 10 workflows is rendered into the native formats of
+Claude Code (`CLAUDE.md` and a plugin), OpenAI Codex (`AGENTS.md` and TOML
+agents), and Google Antigravity IDE (`GEMINI.md` and workflows).
+
+Use it when you want an AI coding agent to plan before it edits, wait for an
+explicit approval phrase such as `PLAN APPROVED`, and report what it actually
+verified, and when you want the same rules in every coding host you use without
+maintaining hand-written copies. Common questions are answered in the
+[FAQ](docs/FAQ.md).
 
 It is **not** a SaaS product, agent runtime, application framework, or hard
 security boundary. The host still controls tools, approvals, sandboxing,
@@ -331,6 +339,7 @@ so repeated questions can become documentation improvements.
 | `hooks/hooks.json` | Claude Code plugin hook that loads the shared rules. |
 | `plugin.json` | Portable plugin manifest for the existing canonical skills. |
 | `bootstrap.sh` / `bootstrap.ps1` | One-line installers that run without a manual clone. |
+| `llms.txt` | Plain-text project summary and doc index for AI assistants. |
 | `docs/assets/` | Repository-local terminal, architecture, and workflow visuals. |
 | `agents/` | 10 canonical specialist role definitions. |
 | `skills/` | 28 canonical Agent Skills for recurring engineering tasks. |
@@ -453,6 +462,7 @@ every push to `main` and every pull request.
 ## Documentation
 
 - [Setup guide](docs/SETUP.md) — installation, upgrades, migration, and troubleshooting.
+- [FAQ](docs/FAQ.md) — short answers to the most common questions.
 - [First-run recipes](docs/FIRST_RUN.md) — safe previews, isolated tests, and feedback.
 - [Customization guide](docs/CUSTOMIZATION.md) — extend the core without creating drift.
 - [Contributing guide](docs/CONTRIBUTING.md) — change discipline and verification.
